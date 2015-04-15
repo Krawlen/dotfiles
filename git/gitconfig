@@ -1,0 +1,6 @@
+[core]
+	editor = subl -w
+	excludesfile = ~/.gitignore_global
+[user]
+	email = juodave@gmail.com
+	name = Juan Velasquez
