@@ -1,0 +1,1 @@
+Inspired in: https://github.com/holman/dotfiles/blob/master/script/bootstrap
