@@ -1,6 +1,7 @@
+
 # ~/.tmuxinator/RoR.yml
 
-name: RoR-server
+name: RoR
 root: ./ 
 
 # Optional tmux socket
@@ -10,7 +11,7 @@ root: ./
 # pre: sudo /etc/rc.d/mysqld start
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
-pre_window: rvm use 2.0.0
+pre_window: rvm use <%= ENV["RUBY_VER"] %>
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
 # tmux_options: -f ~/.tmux.mac.conf
@@ -25,7 +26,7 @@ windows:
   - editor:
       layout: tiled
       panes:
-        - bundle exec spring rails s -p 4000
+        - bundle exec spring rails s
         - bundle exec spring rails c
-        - bundle exec guard
+        - bundle exec guard --guardfile ~/.Guardfile
         - tail -f log/development.log 

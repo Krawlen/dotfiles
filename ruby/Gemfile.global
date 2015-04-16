@@ -1,8 +1,0 @@
-group :development do
-  # Auto Test
-  gem 'guard-rspec', require: false
-  gem 'guard-rubocop'
-  gem 'rack-livereload'
-  gem 'guard-livereload', require: false
-  gem 'guard-ctags-bundler'
-end

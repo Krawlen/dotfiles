@@ -1,0 +1,8 @@
+alias dl="cd ~/Downloads"
+alias dt="cd ~/Desktop"
+alias ws="cd ~/Workspace"
+alias localip="ipconfig getifaddr en0"
+alias sra="lsof -wni tcp:3000"
+alias berdb="bundle exec rake db:migrate"
+alias berdbr="bundle exec rake db:migrate:reset"
+alias rors="bundle exec rake db:migrate:reset"
