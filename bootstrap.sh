@@ -3,12 +3,13 @@
 # bootstrap installs things.
 
 if [ -z "$1" ]; then
-  DOTFILES_ROOT="$(dirname "$0")/symlinks"
+  DOTFILES_ROOT=$( cd "$( dirname "$0" )" && pwd )/symlinks
 elif [ -d "$1" ]; then
   DOTFILES_ROOT="$1"
 else
   echo "Not a valid directory"
 fi
+
 
 set -e
 
@@ -47,7 +48,7 @@ setup_gitconfig () {
     read -e git_authorname
     user ' - What is your github author email?'
     read -e git_authoremail
-    sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" $DOTFILES_ROOT/gitconfig-private.example > ~/.gitconfig-private
+    sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" $DOTFILES_ROOT/.gitconfig-private.example > ~/.gitconfig-private
     success 'gitconfig'
   fi
 }
@@ -147,8 +148,8 @@ install_dotfiles
 
 # Add the link to the zsh common file 
 if [ -z "$(grep '.zshrc-common' $HOME/.zshrc)" ];then
-  sed -i '1isource $HOME/.zshrc-common' $HOME/.zshrc
-  info 'zshrc linked to zshrc-common'
+  echo 'source $HOME/.zshrc-common' | cat - $HOME/.zshrc > temp && mv temp $HOME/.zshrc
+  success 'zshrc linked to zshrc-common'
 fi
 
 # If we're on a Mac, let's install and setup homebrew.
