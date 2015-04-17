@@ -146,11 +146,10 @@ setup_gitconfig
 install_dotfiles
 
 # Add the link to the zsh common file 
-if [-n $(grep .zshrc-common)];then
-  info 'linking zshrc with the common file'
+if [ -z "$(grep '.zshrc-common' $HOME/.zshrc)" ];then
   sed -i '1isource $HOME/.zshrc-common' $HOME/.zshrc
+  info 'zshrc linked to zshrc-common'
 fi
-
 
 # If we're on a Mac, let's install and setup homebrew.
 # if [ "$(uname -s)" == "Darwin" ]
