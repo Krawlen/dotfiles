@@ -146,8 +146,9 @@ setup_gitconfig
 install_dotfiles
 
 # Add the link to the zsh common file 
-if [-n $(grep .zshrc-common)]
-  echo 'DOES NOT HAVE COMMON'
+if [-n $(grep .zshrc-common)];then
+  info 'linking zshrc with the common file'
+  sed -i '1isource $HOME/.zshrc-common' $HOME/.zshrc
 fi
 
 
