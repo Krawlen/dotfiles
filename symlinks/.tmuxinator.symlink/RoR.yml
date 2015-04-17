@@ -28,5 +28,5 @@ windows:
       panes:
         - bundle exec spring rails s
         - bundle exec spring rails c
-        - bundle exec guard --guardfile ~/.Guardfile
+        - BUNDLE_GEMFILE=Gemfile.local bundle exec guard --guardfile ~/.Guardfile
         - tail -f log/development.log 
