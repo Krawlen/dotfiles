@@ -2,7 +2,7 @@
 # More info at https://github.com/guard/guard#readme
 
 guard 'livereload' do
-  watch(%r{app/views/.+\.(erb|haml|slim)$})
+  watch(%r{.+\.(erb|haml|slim)$})
   watch(%r{app/helpers/.+\.rb})
   watch(%r{public/.+\.(css|js|html)})
   watch(%r{config/locales/.+\.yml})
@@ -20,11 +20,11 @@ guard :bundler do
   watch(/^.+\.gemspec/)
 end
 
-guard 'ctags-bundler', :src_path => ["app", "lib", "spec/support"] do
+guard 'ctags-bundler', :src_path => ["app", "lib", "spec/support"], project_file: '.tags', bundler_tags_file: '.gemtags' do
   watch(/^(app|lib|spec\/support)\/.*\.rb$/)
   watch('Gemfile.lock')
 end
 
-guard 'sidekiq', :environment => 'development' do
-  watch(%r{^workers/(.+)\.rb})
-end
+# guard 'sidekiq', :environment => 'development' do
+#   watch(%r{^workers/(.+)\.rb})
+# end

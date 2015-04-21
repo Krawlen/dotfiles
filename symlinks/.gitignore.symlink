@@ -9,4 +9,8 @@ development.sqlite3
 *.log
 .editorconfig
 .gemtags
+.tags
 development.rb
+Gemfile.local
+Gemfile.local.lock
+tags
