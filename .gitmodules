@@ -1,0 +1,9 @@
+[submodule "libs/antigen"]
+	path = libs/antigen
+	url = https://github.com/zsh-users/antigen.git
+[submodule "libs/oh-my-zsh"]
+	path = libs/oh-my-zsh
+	url = https://github.com/robbyrussell/oh-my-zsh.git
+[submodule "libs/Vundle.vim"]
+	path = libs/Vundle.vim
+	url = https://github.com/gmarik/Vundle.vim.git
