@@ -7,10 +7,10 @@ root: ./
 # socket_name: foo
 
 # Runs before everything. Use it to start daemons etc.
-# pre: sudo /etc/rc.d/mysqld start
+#pre: 
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
-pre_window: rvm use 2.0.0
+#pre_window: rvm use 2.0.0
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
 # tmux_options: -f ~/.tmux.mac.conf
@@ -25,9 +25,22 @@ windows:
   - editor:
       layout: tiled
       panes:
-        - bundle exec spring rails s
-        - bundle exec spring rails c
+        - server:
+          - export BUNDLE_GEMFILE=Gemfile.local
+          - spring rails s
+        - console:
+          - export BUNDLE_GEMFILE=Gemfile.local
+          - spring rails c
+          - clear
         - guard:
           - export BUNDLE_GEMFILE=Gemfile.local
-          - bundle exec guard --guardfile ~/.Guardfile
+          - guard --guardfile ~/.Guardfile
         - tail -f log/development.log 
+  - server_logs:
+      layout: tiled
+      panes:
+        - chef:
+          - source ~/repos/parallel6/ops/shell_helpers/scripts/p6-ops-env-setup.sh
+          - achef12
+          - cd ~/repos/parallel6/chef
+        - clear

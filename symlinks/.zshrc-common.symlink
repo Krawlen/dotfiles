@@ -8,6 +8,7 @@ unset file;
 source ~/.antigen/antigen.zsh
 antigen use oh-my-zsh
 antigen bundle git
+antigen bundle gitfast
 antigen bundle bundler
 antigen bundle ruby
 antigen bundle rails
@@ -19,9 +20,17 @@ antigen bundle tmux
 antigen bundle zsh-users/zsh-completions src
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-history-substring-search
+antigen bundle KevinBongart/rake-fast
+# antigen bundle tarruda/zsh-autosuggestions
 antigen theme clean
+antigen apply
 
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
+# bindkey '^[[A' history-substring-search-up
+# bindkey '^[[B' history-substring-search-down
 
+# zle-line-init() {
+#     zle autosuggest-start
+# }
+
+# zle -N zle-line-init
 # eval `dircolors ~/.dircolors`

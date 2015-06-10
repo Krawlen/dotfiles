@@ -1,0 +1,9 @@
+eval File.read('Gemfile')
+
+gem 'interactive_editor'
+gem 'byebug'
+gem 'guard-ctags-bundler'
+gem 'terminal-notifier-guard', '~> 1.6.1'
+gem 'guard-bundler', require: false
+gem "awesome_print", require: false
+gem "pry-clipboard", require: false

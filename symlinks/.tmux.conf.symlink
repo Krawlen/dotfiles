@@ -49,3 +49,4 @@ set-option -g display-panes-colour brightred #orange
 set-window-option -g clock-mode-colour green #green
 
 set-option -g default-command "reattach-to-user-namespace -l zsh"
+set-option -g allow-rename off

@@ -1,3 +1,7 @@
+.ruby-version
+.ruby-gemset
+.rake_tasks
+config/staff.yml
 config/menus/local.yml
 config/customer_config/local.yml
 .idea/
