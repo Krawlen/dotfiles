@@ -10,30 +10,77 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
+Plugin 'flazz/vim-colorschemes'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'bling/vim-airline'
+Plugin 'leshill/vim-json'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'tpope/vim-commentary'
+Plugin 'kien/ctrlp.vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
 
 " Powerline setup (Airline)
 let g:airline_powerline_fonts = 1
 set laststatus=2
 " Powerline setup finish
 
+" We have VCS -- we don't need this stuff."
+set nobackup " We have vcs, we don't need backups.
+set nowritebackup " We have vcs, we don't need backups.
+set noswapfile " They're just annoying. Who likes them?
+
+" don't nag me when hiding buffers
+set hidden " allow me to have buffers with unsaved changes.
+set autoread " when a file has changed on disk, just load it. Don't ask.
+
+" Show Line numbers
 set number
-set ruler
+" Make search more sane
+set ignorecase " case insensitive search
+set smartcase " If there are uppercase letters, become case-sensitive.
+set incsearch " live incremental searching
+set showmatch " live match highlighting
+set hlsearch " highlight matches
+set gdefault " use the `g` flag by default.
+
+" So we don't have to press shift when we want to get into command mode.
+nnoremap ; :
+vnoremap ; :
+
+" So we don't have to reach for escape to leave insert mode.
+inoremap jf <esc>
+
+set expandtab " use spaces instead of tabs.
+set smarttab " let's tab key insert 'tab stops', and bksp deletes tabs.
+set shiftround " tab / shifting moves to closest tabstop.
+set autoindent " Match indents on new lines.
+set smartindent " Intellegently dedent / indent new lines based on rules.
 syntax on
 
+" leader is a key that allows you to have your own "namespace" of keybindings.
+let mapleader = ","
+
+" create new vsplit, and switch to it.
+noremap <leader>v <C-w>v
+
+" " bindings for easy split nav
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Map the key for toggling comments with vim-commentary
+nnoremap <leader>c <Plug>CommentaryLine
+
+" Remap ctrlp to ctrl-t -- map it however you like, or stick with the
+let g:ctrlp_map = '<c-t>'
+
+" Let ctrlp have up to 30 results.
+let g:ctrlp_max_height = 30
+let g:ctrlp_show_hidden = 1
+
+" Colorscheme
+colorscheme Tomorrow-Night-Eighties
