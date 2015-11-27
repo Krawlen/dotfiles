@@ -10,12 +10,8 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
-Plugin 'L9'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'kchmck/vim-coffee-script'
-
+Plugin 'bling/vim-airline'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
@@ -31,15 +27,13 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
-"
-" Powerline setup
-set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
+
+" Powerline setup (Airline)
+let g:airline_powerline_fonts = 1
 set laststatus=2
-set t_Co=256
-let g:PowerLine_symbols = 'fancy'
+" Powerline setup finish
 
 set number
-
+set ruler
 syntax on
 
-filetype plugin indent on
