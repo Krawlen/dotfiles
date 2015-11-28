@@ -24,19 +24,20 @@ root: ./
 windows:
   - editor:
       layout: tiled
+      panes: 
+        - vim .
+  - logs:
+      layout: tiled
       panes:
         - server:
-          - export BUNDLE_GEMFILE=Gemfile.local
           - spring rails s
         - console:
-          - export BUNDLE_GEMFILE=Gemfile.local
           - spring rails c
           - clear
         - guard:
-          - export BUNDLE_GEMFILE=Gemfile.local
           - guard --guardfile ~/.Guardfile
         - tail -f log/development.log 
-  - server_logs:
+  - production_logs:
       layout: tiled
       panes:
         - chef:
