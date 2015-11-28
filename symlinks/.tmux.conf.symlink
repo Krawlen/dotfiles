@@ -59,3 +59,7 @@ bind-key C-a last-window
 
 # Reduce time between escaped commands
 set -s escape-time 0
+
+# Start windows and panes at 1, not 0
+set -g base-index 1
+set -g pane-base-index 1

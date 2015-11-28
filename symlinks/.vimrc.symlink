@@ -17,6 +17,7 @@ Plugin 'leshill/vim-json'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'tpope/vim-commentary'
 Plugin 'kien/ctrlp.vim'
+Plugin 'edkolev/tmuxline.vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
@@ -84,3 +85,6 @@ let g:ctrlp_show_hidden = 1
 
 " Colorscheme
 colorscheme Tomorrow-Night-Eighties
+
+" Copy into OS clipboard
+set clipboard=unnamed

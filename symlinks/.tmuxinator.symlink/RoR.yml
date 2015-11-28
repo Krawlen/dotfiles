@@ -34,14 +34,11 @@ windows:
         - console:
           - spring rails c
           - clear
-        - guard:
-          - guard --guardfile ~/.Guardfile
-        - tail -f log/development.log 
   - production_logs:
       layout: tiled
       panes:
         - chef:
-          - source ~/repos/parallel6/ops/shell_helpers/scripts/p6-ops-env-setup.sh
+          - source $BASE_REPO_DIR/ops/shell_helpers/scripts/p6-ops-env-setup.sh
           - achef12
           - cd ~/repos/parallel6/chef
         - clear
