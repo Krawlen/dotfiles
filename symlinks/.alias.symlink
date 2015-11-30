@@ -3,7 +3,7 @@ alias achef12="ln -sf ~/.chef/knife12.rb ~/.chef/knife.rb"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias ws="cd ~/Workspace"
-alias cr="cd ~/Workspace/P6/captivereach"
+alias cr="cd ~/Workspace/parallel6/captivereach"
 alias localip="ipconfig getifaddr en0"
 alias lror="lsof -wni tcp:3000"
 alias rdbm="spring rake db:migrate"
@@ -17,3 +17,14 @@ alias ohmyzsh="subl ~/.oh-my-zsh"
 alias kror="tmux kill-session -t RoR"
 alias prune_branches="git branch --merged | grep -v "\*" | xargs -n 1 git branch -d"
 alias local_gemfile="ln -s ~/.development_gemfile Gemfile.local"
+
+
+knife_address(){
+  local server=$(knife status | grep "$1.*$2")
+  echo $server
+  local ip=$(echo $server | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
+  echo $ip
+  echo "ssh jvelasquez@$ip" | pbcopy
+}
+
+alias ka="knife_address"

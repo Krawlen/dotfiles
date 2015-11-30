@@ -131,7 +131,7 @@ Pry.config.hooks.add_hook(:after_eval, :debundle) { Pry.debundle! }
 Pry.debundle!
 
 # === EDITOR ===
-Pry.editor = "subl -w"
+Pry.editor = "vim"
 
 # == Pry-Nav - Using pry as a debugger ==
 if defined?(PryByebug)
@@ -172,10 +172,6 @@ require 'interactive_editor'
 require 'rubygems'
 require "awesome_print"
 AwesomePrint.pry!
-
-# aliases
-Pry.config.commands.alias_command 'ch', 'copy-history'
-Pry.config.commands.alias_command 'cr', 'copy-result'
 
 # === CUSTOM COMMANDS ===
 # from: https://gist.github.com/1297510
