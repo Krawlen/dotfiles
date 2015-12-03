@@ -9,15 +9,35 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive' " Use git commands inside of vim
+Plugin 'airblade/vim-gitgutter' " Display git status changes in the code
 Plugin 'flazz/vim-colorschemes'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'bling/vim-airline'
-Plugin 'leshill/vim-json'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'tpope/vim-commentary'
-Plugin 'kien/ctrlp.vim'
-Plugin 'edkolev/tmuxline.vim'
+Plugin 'christoomey/vim-tmux-navigator' "Use C - H, J, K , L to switch panes
+Plugin 'bling/vim-airline' " Add status line at the bottom
+Plugin 'kien/ctrlp.vim' " Keymapped to C -t
+Plugin 'edkolev/tmuxline.vim' " Add status line to tmux
+Plugin 'editorconfig/editorconfig-vim' " Editorconfig for vim
+Plugin 'scrooloose/syntastic' " Check syntax
+Plugin 'ntpeters/vim-better-whitespace' " Higlight trailing whitespaces
+Plugin 'Yggdroot/indentLine'  " Show indentation guides |
+Plugin 'skalnik/vim-vroom' " Run Ruby tests C-r c-R, integrates with vimux
+Plugin 'benmills/vimux' " Add small tmux window below vim, use Vimux functions to open the window
+Plugin 'Valloric/YouCompleteMe' " Tab to auto complete
+Plugin 'scrooloose/nerdcommenter' " Comment lines using <leader> cc
+Plugin 'justinmk/vim-sneak' " Jump between lines faster. Use s to start search
+Plugin 'mileszs/ack.vim' " Search text in files
+Plugin 'SirVer/ultisnips' " Allow for snippets
+Plugin 'honza/vim-snippets' " Snippets to use with the ultisnipts
+Plugin 'tpope/vim-surround' " Surround code with brackets etc. Use s to change surrounding
+" Language specific plugins
+Plugin 'leshill/vim-json' " JSON highlight
+Plugin 'kchmck/vim-coffee-script' " Coffee script higlight
+Plugin 'pangloss/vim-javascript' " Javascript highlight
+Plugin 'vim-ruby/vim-ruby' " Ruby highlight
+Plugin 'slim-template/vim-slim' " Slim Highligh
+Plugin 'tpope/vim-haml' " Slim highligh
+Plugin 'tpope/vim-rails' " Rails highlight
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
@@ -48,8 +68,8 @@ set hlsearch " highlight matches
 set gdefault " use the `g` flag by default.
 
 " So we don't have to press shift when we want to get into command mode.
-nnoremap ; :
-vnoremap ; :
+nnoremap ` :
+vnoremap ` :
 
 " So we don't have to reach for escape to leave insert mode.
 inoremap jf <esc>
@@ -66,15 +86,14 @@ let mapleader = ","
 
 " create new vsplit, and switch to it.
 noremap <leader>v <C-w>v
+" create new horizontal split
+noremap <leader>h <C-w>s
 
 " " bindings for easy split nav
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-
-" Map the key for toggling comments with vim-commentary
-nnoremap <leader>c <Plug>CommentaryLine
 
 " Remap ctrlp to ctrl-t -- map it however you like, or stick with the
 let g:ctrlp_map = '<c-t>'
@@ -88,3 +107,36 @@ colorscheme Tomorrow-Night-Eighties
 
 " Copy into OS clipboard
 set clipboard=unnamed
+
+" Syntastic configuration
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" Disable automatic comments
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+" Highlight current line
+":set cursorline
+
+" Vroom configuration.(Run Ruby Tests within vim)
+let g:vroom_use_spring = 1
+let g:vroom_use_vimux  = 1
+
+" Run last command on vimux
+map <Leader>l :VimuxRunLastCommand<CR>
+
+" Vim Sneak configuration
+let g:sneak#streak = 1
+let g:sneak#s_next = 1
+
+" UltiSnips configuration
+let g:UltiSnipsExpandTrigger="<c-q>" " Do not use tab because of YouCompleteMe
+let g:UltiSnipsExpandTrigger="<c-c>"
+let g:UltiSnipsListSnippets="<c-d>"
+
