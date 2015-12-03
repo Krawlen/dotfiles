@@ -1,6 +1,6 @@
 # ~/.tmuxinator/RoR.yml
 
-name: RoR
+name: CRoR
 root: ./
 
 # Optional tmux socket
@@ -36,3 +36,11 @@ windows:
           - clear
         - rake_commands:
           - clear
+  - production_logs:
+      layout: tiled
+      panes:
+        - chef:
+          - source $BASE_REPO_DIR/parallel6/ops/shell_helpers/scripts/p6-ops-env-setup.sh
+          - achef12
+          - cd $BASE_REPO_DIR/parallel6/chef
+        - clear
