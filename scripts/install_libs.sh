@@ -10,16 +10,10 @@ install_dependencies(){
   mkdir -p "$HOME/.vim/bundle/"
   link_file "$(pwd)/libs/Vundle.vim" "$HOME/.vim/bundle/Vundle.vim"
 
+  # If we're on a Mac, let's install and setup homebrew.
+  if [ "$(uname -s)" == "Darwin" ]
+    then
+    source "$(pwd)/os/osx/brew_libs.sh"
+  fi
 }
 
-# If we're on a Mac, let's install and setup homebrew.
-# if [ "$(uname -s)" == "Darwin" ]
-# then
-#   info "installing dependencies"
-#   if source bin/dot > /tmp/dotfiles-dot 2>&1
-#   then
-#     success "dependencies installed"
-#   else
-#     fail "error installing dependencies"
-#   fi
-# fi
