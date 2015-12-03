@@ -7,3 +7,6 @@
 [submodule "libs/Vundle.vim"]
 	path = libs/Vundle.vim
 	url = https://github.com/gmarik/Vundle.vim.git
+[submodule "libs/fonts"]
+	path = libs/fonts
+	url = git@github.com:powerline/fonts.git
