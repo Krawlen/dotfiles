@@ -15,5 +15,8 @@ install_dependencies(){
     then
     source "$(pwd)/os/osx/brew_libs.sh"
   fi
+
+  info "Installing fonts"
+  $(pwd)/libs/fonts/install.sh
 }
 
