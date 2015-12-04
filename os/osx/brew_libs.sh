@@ -39,6 +39,8 @@ brew install ack
 brew install git
 # git flow
 brew install git-flow
+# Redis
+brew install redis
 # zsh
 brew install zsh
 
