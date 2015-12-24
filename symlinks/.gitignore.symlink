@@ -1,11 +1,11 @@
 .ruby-version
+.overcommit.yml
 .ruby-gemset
 .rake_tasks
 config/staff.yml
 config/menus/local.yml
 config/customer_config/local.yml
 .idea/
-Independa.xcworkspace/
 .DS_Store
 config/staff.yml
 test.log
