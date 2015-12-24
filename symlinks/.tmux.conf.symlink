@@ -51,11 +51,16 @@ set-window-option -g clock-mode-colour green #green
 set-option -g default-command "reattach-to-user-namespace -l zsh"
 set-option -g allow-rename off
 
-# Change default keybindings Ctrl + a
-set-option -g prefix C-a
+# Change default keybindings Ctrl + Space
+unbind C-b
+set -g prefix C-Space
+bind Space send-prefix
 
-# Switch to last active window with C-A
-bind-key C-a last-window
+# Switch to last active window with C-Space
+bind-key C-Space last-window
+
+# Enter Copy mode using Space
+bind Space copy-mode
 
 # Reduce time between escaped commands
 set -s escape-time 0
