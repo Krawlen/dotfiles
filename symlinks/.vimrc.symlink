@@ -17,20 +17,25 @@ Plugin 'bling/vim-airline' " Add status line at the bottom
 Plugin 'kien/ctrlp.vim' " Keymapped to C -t
 Plugin 'edkolev/tmuxline.vim' " Add status line to tmux
 Plugin 'editorconfig/editorconfig-vim' " Editorconfig for vim
-Plugin 'scrooloose/syntastic' " Check syntax
-Plugin 'ntpeters/vim-better-whitespace' " Higlight trailing whitespaces
+"Plugin 'scrooloose/syntastic' " Check syntax
+"Plugin 'ntpeters/vim-better-whitespace' " Higlight trailing whitespaces
 Plugin 'Yggdroot/indentLine'  " Show indentation guides |
 Plugin 'skalnik/vim-vroom' " Run Ruby tests C-r c-R, integrates with vimux
 Plugin 'benmills/vimux' " Add small tmux window below vim, use Vimux functions to open the window
 Plugin 'Valloric/YouCompleteMe' " Tab to auto complete
 Plugin 'scrooloose/nerdcommenter' " Comment lines using <leader> cc
-Plugin 'justinmk/vim-sneak' " Jump between lines faster. Use s to start search
+"Plugin 'justinmk/vim-sneak' " Jump between lines faster. Use s to start search
 Plugin 'mileszs/ack.vim' " Search text in files
-Plugin 'SirVer/ultisnips' " Allow for snippets
-Plugin 'honza/vim-snippets' " Snippets to use with the ultisnipts
+"Plugin 'SirVer/ultisnips' " Allow for snippets
+"Plugin 'honza/vim-snippets' " Snippets to use with the ultisnipts
 Plugin 'tpope/vim-surround' " Surround code with brackets etc. Use s to change surrounding
+Plugin 'ngmy/vim-rubocop'
+"Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'tpope/vim-repeat'
+Plugin 'wincent/Command-T'
 " Language specific plugins
-Plugin 'leshill/vim-json' " JSON highlight
+Plugin 'leshill/vim-json' " JSON highlig"ht
 Plugin 'kchmck/vim-coffee-script' " Coffee script higlight
 Plugin 'pangloss/vim-javascript' " Javascript highlight
 Plugin 'vim-ruby/vim-ruby' " Ruby highlight
@@ -43,10 +48,41 @@ call vundle#end()            " required
 
 filetype plugin indent on    " required
 
-" Powerline setup (Airline)
-let g:airline_powerline_fonts = 1
-set laststatus=2
-" Powerline setup finish
+"===============================================================================================
+" Custom Mappings
+
+" leader is a key that allows you to have your own "namespace" of keybindings.
+let mapleader = "\<Space>"
+
+" Binding.pry mapping
+nmap <leader>p obinding.pry<esc>^
+" Save current file
+nnoremap <Leader>w :w<CR>
+" Exit from the current file
+nnoremap <Leader>q :q<CR>
+" Exit and save
+nnoremap <Leader>wq :wq<CR>
+
+" So we don't have to press shift when we want to get into command mode.
+nnoremap ` :
+vnoremap ` :
+
+" So we don't have to reach for escape to leave insert mode.
+inoremap jf <esc>
+
+" create new vsplit, and switch to it.
+noremap <leader>v <C-w>v
+" create new horizontal split
+noremap <leader>h <C-w>s
+
+ " bindings for easy split nav
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+"===============================================================================================
+" VIM General Settings
 
 " We have VCS -- we don't need this stuff."
 set nobackup " We have vcs, we don't need backups.
@@ -54,10 +90,13 @@ set nowritebackup " We have vcs, we don't need backups.
 set noswapfile " They're just annoying. Who likes them?
 
 " don't nag me when hiding buffers
-set hidden " allow me to have buffers with unsaved changes.
 set autoread " when a file has changed on disk, just load it. Don't ask.
 
 " Show Line numbers
+"set relativenumber " This makes it too slow
+" Highlight current line
+":set cursorline " This is slow!!
+
 set number
 " Make search more sane
 set ignorecase " case insensitive search
@@ -67,13 +106,6 @@ set showmatch " live match highlighting
 set hlsearch " highlight matches
 set gdefault " use the `g` flag by default.
 
-" So we don't have to press shift when we want to get into command mode.
-nnoremap ` :
-vnoremap ` :
-
-" So we don't have to reach for escape to leave insert mode.
-inoremap jf <esc>
-
 set expandtab " use spaces instead of tabs.
 set smarttab " let's tab key insert 'tab stops', and bksp deletes tabs.
 set shiftround " tab / shifting moves to closest tabstop.
@@ -81,65 +113,123 @@ set autoindent " Match indents on new lines.
 set smartindent " Intellegently dedent / indent new lines based on rules.
 syntax on
 
-" leader is a key that allows you to have your own "namespace" of keybindings.
-let mapleader = ","
-
-" create new vsplit, and switch to it.
-noremap <leader>v <C-w>v
-" create new horizontal split
-noremap <leader>h <C-w>s
-
-" " bindings for easy split nav
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
-" Remap ctrlp to ctrl-t -- map it however you like, or stick with the
-let g:ctrlp_map = '<c-t>'
-
-" Let ctrlp have up to 30 results.
-let g:ctrlp_max_height = 30
-let g:ctrlp_show_hidden = 1
 
 " Colorscheme
 colorscheme Tomorrow-Night-Eighties
-
 " Copy into OS clipboard
 set clipboard=unnamed
-
-" Syntastic configuration
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_quiet_messages = { "level": "warnings" }
-
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 
 " Disable automatic comments
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-" Highlight current line
-":set cursorline
+"===============================================================================================
+" Powerline setup (Airline)
+let g:airline_powerline_fonts = 1
+set laststatus=2
 
-" Vroom configuration.(Run Ruby Tests within vim)
+"===============================================================================================
+" Ack.vim
+
+" Using AG instead of ACK
+if executable('ag')
+  " Use Ag over Grep
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+"===============================================================================================
+" Rubocop
+
+" Run Rubocop
+let g:vimrubocop_keymap = 0
+nmap <Leader>c :RuboCop -a<CR>
+
+"===============================================================================================
+" CtrlP
+
+" Remap ctrlp to ctrl-t -- map it however you like, or stick with the
+"let g:ctrlp_map = '<c-t>'
+
+" Let ctrlp have up to 30 results.
+"let g:ctrlp_max_height = 30
+"let g:ctrlp_show_hidden = 1
+
+
+"===============================================================================================
+" Syntastic
+
+" Syntastic configuration
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"let g:syntastic_quiet_messages = { "level": "warnings" }
+
+
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+
+
+"===============================================================================================
+" VROOM
+" (Run Ruby Tests within vim)
+let g:vroom_map_keys = 0
 let g:vroom_use_spring = 1
 let g:vroom_use_vimux  = 1
+nnoremap <Leader>r :VroomRunNearestTest<CR>
+nnoremap <Leader>rr :VroomRunTestFile<CR>
 
+"===============================================================================================
+" Vimux
 " Run last command on vimux
-map <Leader>l :VimuxRunLastCommand<CR>
+map <Leader>g :VimuxRunLastCommand<CR>
 
-" Vim Sneak configuration
-let g:sneak#streak = 1
-let g:sneak#s_next = 1
 
+"===============================================================================================
+" Easy Motion
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
+" Bi-directional find motion
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+nmap <space>s <Plug>(easymotion-s)
+" or
+" `s{char}{char}{label}`
+" Need one more keystroke, but on average, it may be more comfortable.
+nmap s <Plug>(easymotion-s2)
+
+" Turn on case insensitive feature
+let g:EasyMotion_smartcase = 1
+
+" JK motions: Line motions
+map <Leader>l <Plug>(easymotion-lineforward)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>h <Plug>(easymotion-linebackward)
+
+" Gif config
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+
+" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+" Without these mappings, `n` & `N` works fine. (These mappings just provide
+" different highlight method and have some other features )
+map  n <Plug>(easymotion-next)
+map  N <Plug>(easymotion-prev)
+
+
+"===============================================================================================
 " UltiSnips configuration
-let g:UltiSnipsExpandTrigger="<c-q>" " Do not use tab because of YouCompleteMe
-let g:UltiSnipsExpandTrigger="<c-c>"
-let g:UltiSnipsListSnippets="<c-d>"
+"let g:UltiSnipsExpandTrigger="<c-q>" " Do not use tab because of YouCompleteMe
+"let g:UltiSnipsExpandTrigger="<c-c>"
+"let g:UltiSnipsListSnippets="<c-d>"
 
 
+"===============================================================================================
+" Command-T
+
+nnoremap <silent> <C-t> :CommandT<CR>
+let g:CommandTMaxHeight = 25
+"let g:CommandTFileScanner= 'git'
+let g:CommandTAlwaysShowDotFiles = 1
+let g:CommandTScanDotDirectories = 1
