@@ -43,6 +43,8 @@ brew install git-flow
 brew install redis
 # zsh
 brew install zsh
+# AG
+brew install the_silver_searcher
 
 # Set zsh as the default interpreter
 if [ -z "$(grep '/usr/local/bin/zsh' /etc/shells)" ];then
