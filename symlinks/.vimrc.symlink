@@ -233,3 +233,6 @@ let g:CommandTMaxHeight = 25
 "let g:CommandTFileScanner= 'git'
 let g:CommandTAlwaysShowDotFiles = 1
 let g:CommandTScanDotDirectories = 1
+let g:CommandTMatchWindowReverse = 1
+set wildignore+=.git*,vendor/**/*,admin_themes/**/*,tmp*,.DS_Store
+let g:CommandTCancelMap=['<C-x>', '<C-c>', '<Esc>']
