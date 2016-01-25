@@ -60,7 +60,7 @@ bind Space send-prefix
 bind-key C-Space last-window
 
 # Enter Copy mode using Space
-bind k copy-mode
+bind C-u copy-mode
 
 # Reduce time between escaped commands
 set -s escape-time 0
