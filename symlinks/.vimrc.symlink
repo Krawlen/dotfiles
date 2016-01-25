@@ -18,7 +18,7 @@ Plugin 'kien/ctrlp.vim' " Keymapped to C -t
 Plugin 'edkolev/tmuxline.vim' " Add status line to tmux
 Plugin 'editorconfig/editorconfig-vim' " Editorconfig for vim
 "Plugin 'scrooloose/syntastic' " Check syntax
-"Plugin 'ntpeters/vim-better-whitespace' " Higlight trailing whitespaces
+Plugin 'ntpeters/vim-better-whitespace' " Higlight trailing whitespaces
 Plugin 'Yggdroot/indentLine'  " Show indentation guides |
 Plugin 'skalnik/vim-vroom' " Run Ruby tests C-r c-R, integrates with vimux
 Plugin 'benmills/vimux' " Add small tmux window below vim, use Vimux functions to open the window
@@ -75,6 +75,9 @@ noremap <leader>v <C-w>v
 " create new horizontal split
 noremap <leader>h <C-w>s
 
+" Use macro
+nnoremap <leader>2 @q
+" Refresh current file
 nnoremap <leader>5 :checktime<CR>
 
 "===============================================================================================
@@ -109,6 +112,9 @@ set smarttab " let's tab key insert 'tab stops', and bksp deletes tabs.
 set shiftround " tab / shifting moves to closest tabstop.
 set autoindent " Match indents on new lines.
 set smartindent " Intellegently dedent / indent new lines based on rules.
+set shiftwidth=2
+
+
 syntax on
 " Colorscheme
 colorscheme Tomorrow-Night-Eighties
@@ -146,7 +152,7 @@ endif
 
 " Run Rubocop
 let g:vimrubocop_keymap = 0
-nmap <Leader>c :RuboCop -a<CR>
+nmap <Leader>f :RuboCop -a<CR>
 
 "===============================================================================================
 " CtrlP
