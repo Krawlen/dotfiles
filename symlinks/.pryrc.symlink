@@ -1,6 +1,8 @@
 # === EDITOR ===
 Pry.editor = "vim"
 
+
+Readline.basic_word_break_characters += '.'
 # == Pry-Nav - Using pry as a debugger ==
 if defined?(PryByebug)
   Pry.commands.alias_command 'c', 'continue'
