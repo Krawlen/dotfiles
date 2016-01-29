@@ -1,3 +1,7 @@
+command_exists () {
+      type "$1" &> /dev/null ;
+}
+
 alias achef11="ln -sf ~/.chef/knife11.rb ~/.chef/knife.rb"
 alias achef12="ln -sf ~/.chef/knife12.rb ~/.chef/knife.rb"
 alias dl="cd ~/Downloads"
@@ -6,12 +10,23 @@ alias ws="cd ~/Workspace"
 alias cr="cd ~/Workspace/parallel6/captivereach"
 alias localip="ipconfig getifaddr en0"
 alias lror="lsof -wni tcp:3000"
-alias rdbm="spring rake db:migrate"
-alias rdbsl="spring rake db:schema:load"
-alias rdbtl="spring rake db:test:load"
-alias rdbmr="bundle exec rake db:migrate:reset"
-alias dbdc="spring rake db:drop db:create"
-alias rinit="spring rake db:reset db:test:load"
+
+if command_exists noti ; then
+  alias rdbm="noti spring rake db:migrate"
+  alias rdbsl="noti spring rake db:schema:load"
+  alias rdbtl="noti spring rake db:test:load"
+  alias rdbmr="noti bundle exec rake db:migrate:reset"
+  alias dbdc="noti spring rake db:drop db:create"
+  alias rinit="noti spring rake db:reset db:test:load"
+else
+  alias rdbm="spring rake db:migrate"
+  alias rdbsl="spring rake db:schema:load"
+  alias rdbtl="spring rake db:test:load"
+  alias rdbmr="bundle exec rake db:migrate:reset"
+  alias dbdc="spring rake db:drop db:create"
+  alias rinit="spring rake db:reset db:test:load"
+fi
+
 alias rors="mux s RoR"
 alias crs="mux s CRoR"
 alias zshconfig="subl ~/.zshrc"
