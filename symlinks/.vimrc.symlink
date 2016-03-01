@@ -69,6 +69,21 @@ vnoremap ` :
 
 " So we don't have to reach for escape to leave insert mode.
 inoremap jf <esc>
+inoremap jj <esc>
+
+" next/prev quicklist item
+nmap <c-b> :cprevious<CR>
+nmap <c-n> :cnext<CR>
+
+" Keybind crosshairs on and off
+hi CursorLine   cterm=NONE ctermbg=235
+hi CursorColumn cterm=NONE ctermbg=235
+nnoremap <c-x> :set cursorline! cursorcolumn!<CR>
+
+"This unsets the "last search pattern" register by hitting return
+nnoremap <CR> :noh<CR><CR>
+" Set // to search the current visual selection
+vnoremap // y/<C-R>"<CR>"
 
 " create new vsplit, and switch to it.
 noremap <leader>v <C-w>v
@@ -218,15 +233,15 @@ map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 map <Leader>h <Plug>(easymotion-linebackward)
 
-" Gif config
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
+" Full search Gif config
+"map  / <Plug>(easymotion-sn)
+"omap / <Plug>(easymotion-tn)
 
 " These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
 " Without these mappings, `n` & `N` works fine. (These mappings just provide
 " different highlight method and have some other features )
-map  n <Plug>(easymotion-next)
-map  N <Plug>(easymotion-prev)
+"map  n <Plug>(easymotion-next)
+"map  N <Plug>(easymotion-prev)
 
 
 "===============================================================================================
@@ -241,7 +256,7 @@ map  N <Plug>(easymotion-prev)
 
 nnoremap <silent> <C-t> :CommandT<CR>
 let g:CommandTMaxHeight = 25
-"let g:CommandTFileScanner= 'git'
+let g:CommandTFileScanner= 'git'
 let g:CommandTAlwaysShowDotFiles = 1
 let g:CommandTScanDotDirectories = 1
 let g:CommandTMatchWindowReverse = 1

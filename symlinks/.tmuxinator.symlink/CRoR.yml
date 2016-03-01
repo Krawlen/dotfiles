@@ -44,3 +44,10 @@ windows:
           - achef12
           - cd $BASE_REPO_DIR/parallel6/chef
         - clear
+  - sidekiq:
+      layout: tiled
+      panes:
+        - sidekiq:
+          - sidekiq
+        - redis:
+          - redis-server
