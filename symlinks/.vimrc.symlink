@@ -17,7 +17,7 @@ Plugin 'bling/vim-airline' " Add status line at the bottom
 Plugin 'kien/ctrlp.vim' " Keymapped to C -t
 Plugin 'edkolev/tmuxline.vim' " Add status line to tmux
 Plugin 'editorconfig/editorconfig-vim' " Editorconfig for vim
-"Plugin 'scrooloose/syntastic' " Check syntax
+Plugin 'scrooloose/syntastic' " Check syntax
 Plugin 'ntpeters/vim-better-whitespace' " Higlight trailing whitespaces
 Plugin 'Yggdroot/indentLine'  " Show indentation guides |
 Plugin 'skalnik/vim-vroom' " Run Ruby tests C-r c-R, integrates with vimux
@@ -30,12 +30,12 @@ Plugin 'mileszs/ack.vim' " Search text in files
 "Plugin 'honza/vim-snippets' " Snippets to use with the ultisnipts
 Plugin 'tpope/vim-surround' " Surround code with brackets etc. Use s to change surrounding
 Plugin 'ngmy/vim-rubocop'
-"Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'tpope/vim-repeat'
 Plugin 'wincent/Command-T'
 " Language specific plugins
-Plugin 'leshill/vim-json' " JSON highlig"ht
+Plugin 'leshill/vim-json' " JSON highlig"
 Plugin 'kchmck/vim-coffee-script' " Coffee script higlight
 Plugin 'pangloss/vim-javascript' " Javascript highlight
 Plugin 'vim-ruby/vim-ruby' " Ruby highlight
@@ -107,18 +107,18 @@ set noswapfile " They're just annoying. Who likes them?
 "set autoread " when a file has changed on disk, just load it. Don't ask.
 
 " Show Line numbers
-"set relativenumber " This makes it too slow
+set relativenumber " This makes it too slow
 " Highlight current line
-":set cursorline " This is slow!!
-"set foldlevelstart=20 SLoo
-"set foldmethod=syntax Slow
+set cursorline " This is slow!!
+"set foldlevelstart=20 " Slow
+"set foldmethod=syntax " Slow
 
 set number
 " Make search more sane
 set ignorecase " case insensitive search
 set smartcase " If there are uppercase letters, become case-sensitive.
 set incsearch " live incremental searching
-"set showmatch " live match highlighting
+set showmatch " live match highlighting
 set hlsearch " highlight matches
 set gdefault " use the `g` flag by default.
 
@@ -256,7 +256,7 @@ map <Leader>h <Plug>(easymotion-linebackward)
 
 nnoremap <silent> <C-t> :CommandT<CR>
 let g:CommandTMaxHeight = 25
-let g:CommandTFileScanner= 'git'
+let g:CommandTFileScanner= 'ruby'
 let g:CommandTAlwaysShowDotFiles = 1
 let g:CommandTScanDotDirectories = 1
 let g:CommandTMatchWindowReverse = 1

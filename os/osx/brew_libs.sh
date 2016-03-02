@@ -45,6 +45,10 @@ brew install redis
 brew install zsh
 # AG
 brew install the_silver_searcher
+# Notify when a process completes
+brew install noti
+# Install Node
+brew install npm
 
 # Set zsh as the default interpreter
 if [ -z "$(grep '/usr/local/bin/zsh' /etc/shells)" ];then
