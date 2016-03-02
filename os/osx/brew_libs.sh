@@ -49,6 +49,8 @@ brew install the_silver_searcher
 brew install noti
 # Install Node
 brew install npm
+#Install qt
+brew install qt
 
 # Set zsh as the default interpreter
 if [ -z "$(grep '/usr/local/bin/zsh' /etc/shells)" ];then
