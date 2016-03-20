@@ -36,7 +36,8 @@ Plugin 'easymotion/vim-easymotion'
 Plugin 'tpope/vim-repeat'
 Plugin 'wincent/Command-T'
 " Language specific plugins
-Plugin 'leshill/vim-json' " JSON highlig"
+Plugin 'octave.vim' "Octave
+Plugin 'leshill/vim-json' " JSON highlig
 Plugin 'kchmck/vim-coffee-script' " Coffee script higlight
 Plugin 'pangloss/vim-javascript' " Javascript highlight
 Plugin 'vim-ruby/vim-ruby' " Ruby highlight
@@ -267,7 +268,7 @@ map  N <Plug>(easymotion-prev)
 
 nnoremap <silent> <C-t> :CommandT<CR>
 let g:CommandTMaxHeight = 25
-let g:CommandTFileScanner= 'ruby'
+let g:CommandTFileScanner= 'git'
 let g:CommandTAlwaysShowDotFiles = 1
 let g:CommandTScanDotDirectories = 1
 let g:CommandTMatchWindowReverse = 1
