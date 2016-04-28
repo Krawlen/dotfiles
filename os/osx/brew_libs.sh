@@ -51,6 +51,11 @@ brew install noti
 brew install npm
 #Install qt
 brew install qt
+# Install Command-line Fuzzy Finder
+brew install fzf
+# Add key fzf keybindings
+/usr/local/opt/fzf/install
+
 
 # Set zsh as the default interpreter
 if [ -z "$(grep '/usr/local/bin/zsh' /etc/shells)" ];then
@@ -60,3 +65,5 @@ chsh -s /usr/local/bin/zsh
 
 # Remove outdated versions from the cellar.
 brew cleanup
+
+
