@@ -12,19 +12,23 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-fugitive' " Use git commands inside of vim
 Plugin 'airblade/vim-gitgutter' " Display git status changes in the code
 Plugin 'flazz/vim-colorschemes'
+Plugin 'vim-scripts/DrawIt' " Draw lines and arrows (Math)
+Plugin 'Rykka/mathematic.vim' " Quick mathematic symbols
 Plugin 'christoomey/vim-tmux-navigator' "Use C - H, J, K , L to switch panes
 Plugin 'bling/vim-airline' " Add status line at the bottom
-Plugin 'kien/ctrlp.vim' " Keymapped to C -t
+"Plugin 'kien/ctrlp.vim' " Keymapped to C -t
 Plugin 'edkolev/tmuxline.vim' " Add status line to tmux
 Plugin 'editorconfig/editorconfig-vim' " Editorconfig for vim
-Plugin 'scrooloose/syntastic' " Check syntax
+"Plugin 'scrooloose/syntastic' " Check syntax
 Plugin 'chrisbra/csv.vim' " CSV inside vim
 Plugin 'ntpeters/vim-better-whitespace' " Higlight trailing whitespaces
 Plugin 'Yggdroot/indentLine'  " Show indentation guides |
 Plugin 'skalnik/vim-vroom' " Run Ruby tests C-r c-R, integrates with vimux
 Plugin 'benmills/vimux' " Add small tmux window below vim, use Vimux functions to open the window
-Plugin 'Valloric/YouCompleteMe' " Tab to auto complete
+"Plugin 'Valloric/YouCompleteMe' " Tab to auto complete
 Plugin 'scrooloose/nerdcommenter' " Comment lines using <leader> cc
+Plugin 'scrooloose/nerdtree' " Navigate files
+Plugin 'Xuyuanp/nerdtree-git-plugin' " Add git indicators to NerdTree
 "Plugin 'justinmk/vim-sneak' " Jump between lines faster. Use s to start search
 Plugin 'mileszs/ack.vim' " Search text in files
 "Plugin 'SirVer/ultisnips' " Allow for snippets
@@ -34,8 +38,11 @@ Plugin 'ngmy/vim-rubocop'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'tpope/vim-repeat'
-Plugin 'wincent/Command-T'
+"Plugin 'wincent/Command-T'
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plugin 'junegunn/fzf.vim'
 " Language specific plugins
+Plugin 'tmux-plugins/vim-tmux'
 Plugin 'octave.vim' "Octave
 Plugin 'leshill/vim-json' " JSON highlig
 Plugin 'kchmck/vim-coffee-script' " Coffee script higlight
@@ -119,7 +126,7 @@ set noswapfile " They're just annoying. Who likes them?
 "set autoread " when a file has changed on disk, just load it. Don't ask.
 
 " Show Line numbers
-set relativenumber " This makes it too slow
+"set relativenumber " This makes it too slow
 " Highlight current line
 "set cursorline " This is slow!!
 "set foldlevelstart=20 " Slow
@@ -147,7 +154,8 @@ syntax on
 colorscheme Tomorrow-Night-Eighties
 " Copy into OS clipboard
 set clipboard=unnamed
-
+" Associate jbuilder files with ruby syntax
+au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 " Disable automatic comments
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
@@ -196,16 +204,16 @@ nmap <Leader>f :RuboCop -a<CR>
 " Syntastic
 
 " Syntastic configuration
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_quiet_messages = { "level": "warnings" }
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"let g:syntastic_quiet_messages = { "level": "warnings" }
 
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
 
 
 "===============================================================================================
@@ -215,11 +223,11 @@ let g:vroom_map_keys = 0
 let g:vroom_use_spring = 1
 let g:vroom_use_vimux  = 1
 nnoremap <Leader>r :VroomRunNearestTest<CR>
-nnoremap <Leader>rr :VroomRunTestFile<CR>
 
 "===============================================================================================
 " Vimux
 " Run last command on vimux
+map <Leader>e :call VimuxRunCommand("clear; spring rspec " . bufname("%") . " -t @focus")<CR>
 map <Leader>g :VimuxRunLastCommand<CR>
 
 
@@ -264,15 +272,31 @@ map  N <Plug>(easymotion-prev)
 
 
 "===============================================================================================
+" * Command Line Fuzzy Finder (fzf) and (fzf.vim)
+map <C-T> :FZF<CR>
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+let g:fzf_layout = { 'down': '~20%' }
+"===============================================================================================
 " Command-T
 
-nnoremap <silent> <C-t> :CommandT<CR>
-let g:CommandTMaxHeight = 25
-let g:CommandTFileScanner= 'git'
-let g:CommandTAlwaysShowDotFiles = 1
-let g:CommandTScanDotDirectories = 1
-let g:CommandTMatchWindowReverse = 1
-set wildignore+=.git*,vendor/**/*,admin_themes/**/*,tmp*,.DS_Store
-let g:CommandTCancelMap=['<C-c>', '<Esc>']
-let g:CommandTAcceptSelectionSplitMap = '<C-x>'
-let g:CommandTRefreshMap = '<C-r>'
+"nnoremap <silent> <C-t> :CommandT<CR>
+"let g:CommandTMaxHeight = 25
+"let g:CommandTFileScanner= 'ruby'
+"let g:CommandTAlwaysShowDotFiles = 1
+"let g:CommandTScanDotDirectories = 1
+"let g:CommandTMatchWindowReverse = 1
+"set wildignore+=.git*,vendor/**/*,admin_themes/**/*,tmp*,.DS_Store
+"let g:CommandTCancelMap=['<C-c>', '<Esc>']
+"let g:CommandTAcceptSelectionSplitMap = '<C-x>'
+"let g:CommandTRefreshMap = '<C-r>'
+
+"===============================================================================================
+" NerdTree
+"autocmd vimenter * NERDTree
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+map <C-n> :NERDTreeFind<CR>
+
+"===============================================================================================
+" Fugitive
+nmap <C-g> :Gstatus<CR>

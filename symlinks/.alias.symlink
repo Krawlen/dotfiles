@@ -1,3 +1,5 @@
+# vim: filetype=zsh
+
 command_exists () {
       type "$1" &> /dev/null ;
 }
@@ -46,3 +48,23 @@ knife_address(){
 }
 
 alias ka="knife_address"
+
+cr_url(){
+  local default_environment="production"
+  local default_number="01"
+  local customer_name=$1
+  local environment=${2-$default_environment}
+  local server_number=${3-$default_number}
+  local server_url="$customer_name-platform-$environment-$server_number.cloud.captivereach.com"
+  echo $server_url | pbcopy
+  echo $server_url
+}
+ssh_into_captivereach(){
+  ssh jvelasquez@$(cr_url $1 $2 $3)
+}
+run_chef() {
+  local url=$(cr_url $1 $2 $3)
+  noti ssh jvelasquez@$url sudo chef-client
+}
+
+alias scr="ssh_into_captivereach"

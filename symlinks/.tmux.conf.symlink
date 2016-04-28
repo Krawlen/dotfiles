@@ -1,3 +1,5 @@
+# vim: filetype=tmux
+
 is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?)(diff)?$"'
 bind -n C-h if-shell "$is_vim" "send-keys C-h" "select-pane -L"
 bind -n C-j if-shell "$is_vim" "send-keys C-j" "select-pane -D"
@@ -54,7 +56,14 @@ set-option -g allow-rename off
 # Change default keybindings Ctrl + Space
 unbind C-b
 set -g prefix C-Space
-bind Space send-prefix
+bind-key C-\ send-keys C-b
+# Shortcuts for remote tmux sessions
+bind-key C-c  send-keys C-b c
+bind-key C-n  send-keys C-b n
+bind-key C-w  send-keys C-b w
+bind-key C-,  send-keys C-b ,
+bind-key C-p  send-keys C-b p
+bind C-[ send-keys C-b [
 
 # Switch to last active window with C-Space
 bind-key C-Space last-window

@@ -1,12 +1,12 @@
+# vim: filetype=sh
 set editing-mode vi
-set show-mode-in-prompt on
-set bind-tty-special-chars off
+set show-mode-in-prompt on # Add ':' or "+" depending on the Vi mode
+set show-all-if-ambiguous on
+set completion-ignore-case on
+set bind-tty-special-chars off # Allows overwriting the default unix terminal bindings as C-W
 "\C-u": kill-whole-line
 "\C-w": backward-kill-word
+# The mappings from this point on will apply to Vi Insert mode only
 set keymap vi-insert
 "jj": vi-movement-mode
 "jf": vi-movement-mode
-set show-all-if-ambiguous on
-set completion-ignore-case on
-set bind-tty-special-chars off
-

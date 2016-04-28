@@ -1,3 +1,7 @@
+# vim: filetype=zsh
+
 # Make vim the default editor.
 export EDITOR='vim'
 export BASE_REPO_DIR="$HOME/Workspace"
+export FZF_CTRL_T_COMMAND='ag --hidden --ignore .git -g ""'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'

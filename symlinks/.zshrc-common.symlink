@@ -1,4 +1,4 @@
-
+# vim: filetype=zsh
 for file in ~/.{exports,alias}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
