@@ -60,11 +60,34 @@ cr_url(){
   echo $server_url
 }
 ssh_into_captivereach(){
-  ssh jvelasquez@$(cr_url $1 $2 $3)
+  if [ -n "$TMUX" ]; then
+    tmux send-keys "ssh jvelasquez@$(cr_url $1 $2 $3)"  \
+    Enter 'PS1="\[\e[38;5;196m\]\H\[\e[0m\] [ \[\e[1;30m\]\d\[\e[0m\] \@ ] \[\e[1;33m\]\w\n\[\e[1;34m\]\u $ \[\033[0m\]"' \
+    Enter 'clear' Enter
+  else
+    ssh jvelasquez@$(cr_url $1 $2 $3)
+  fi
 }
 run_chef() {
   local url=$(cr_url $1 $2 $3)
   noti ssh jvelasquez@$url sudo chef-client
+}
+
+grecent() {
+  git reflog -n500 --pretty='%cr|%gs' --grep-reflog='checkout: moving' HEAD | {
+    seen=":"
+    git_dir="$(git rev-parse --git-dir)"
+    while read line; do
+      date="${line%%|*}"
+      branch="${line##* }"
+      if ! [[ $seen == *:"${branch}":* ]]; then
+        seen="${seen}${branch}:"
+        if [ -f "${git_dir}/refs/heads/${branch}" ]; then
+          printf "%s\t%s\n" "$date" "$branch"
+        fi
+      fi
+    done
+  }
 }
 
 alias scr="ssh_into_captivereach"

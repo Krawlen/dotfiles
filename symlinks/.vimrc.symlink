@@ -121,6 +121,7 @@ nnoremap <leader>5 :checktime<CR>
 set nobackup " We have vcs, we don't need backups.
 set nowritebackup " We have vcs, we don't need backups.
 set noswapfile " They're just annoying. Who likes them?
+runtime macros/matchit.vim
 
 " don't nag me when hiding buffers
 "set autoread " when a file has changed on disk, just load it. Don't ask.
@@ -153,7 +154,8 @@ syntax on
 " Colorscheme
 colorscheme Tomorrow-Night-Eighties
 " Copy into OS clipboard
-set clipboard=unnamed
+nmap <C-c> "*y
+"set clipboard=unnamed
 " Associate jbuilder files with ruby syntax
 au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 " Disable automatic comments
@@ -227,7 +229,7 @@ nnoremap <Leader>r :VroomRunNearestTest<CR>
 "===============================================================================================
 " Vimux
 " Run last command on vimux
-map <Leader>e :call VimuxRunCommand("clear; spring rspec " . bufname("%") . " -t @focus")<CR>
+map <Leader>e :call VimuxRunCommand("clear; spring rspec " . bufname("%") . " --color --format d ")<CR>
 map <Leader>g :VimuxRunLastCommand<CR>
 
 
@@ -300,3 +302,23 @@ map <C-n> :NERDTreeFind<CR>
 "===============================================================================================
 " Fugitive
 nmap <C-g> :Gstatus<CR>
+
+"===============================================================================================
+" Custom
+"add focus tag
+function! AddFocusTag()
+  let it_example = getline('.')
+  if match(it_example, "', focus: true do") != -1
+    let changed_it_example = substitute(it_example, "', focus: true do", "' do", "")
+  elseif match(it_example, "\", focus: true do") != -1
+    let changed_it_example = substitute(it_example, "\", focus: true do", "\" do", "")
+  elseif match(it_example, "\" do") != -1
+    let changed_it_example = substitute(it_example, "\" do", "\", focus: true do", "")
+  elseif match(it_example, "' do", "', focus: true do", "") != -1
+    let changed_it_example = substitute(it_example, "' do", "', focus: true do", "")
+  endif
+  call setline('.', changed_it_example)
+endfunction
+:command! AddFocusTag :call AddFocusTag()
+:map <leader>y :AddFocusTag<cr>
+

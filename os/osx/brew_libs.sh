@@ -55,6 +55,10 @@ brew install qt
 brew install fzf
 # Add key fzf keybindings
 /usr/local/opt/fzf/install
+# htop - Monitoring tool
+brew install htop
+#web proxy -----****
+#brew install mitmproxy
 
 
 # Set zsh as the default interpreter

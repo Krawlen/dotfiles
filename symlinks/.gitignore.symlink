@@ -5,6 +5,7 @@
 config/staff.yml
 config/menus/local.yml
 config/customer_config/local.yml
+/juan_test/*
 .idea/
 .DS_Store
 config/staff.yml
