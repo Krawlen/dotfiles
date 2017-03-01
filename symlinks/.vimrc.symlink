@@ -1,4 +1,5 @@
 set nocompatible              " be iMproved, required
+let g:deoplete#enable_at_startup = 1
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
@@ -26,15 +27,27 @@ Plugin 'Yggdroot/indentLine'  " Show indentation guides |
 Plugin 'skalnik/vim-vroom' " Run Ruby tests C-r c-R, integrates with vimux
 Plugin 'benmills/vimux' " Add small tmux window below vim, use Vimux functions to open the window
 "Plugin 'Valloric/YouCompleteMe' " Tab to auto complete
+Plugin 'Shougo/deoplete.nvim' " Autocomplete plugin for NEOVIM
+Plugin 'ervandew/supertab' " Allow the use of tab for all kinds of autocomplete
 Plugin 'scrooloose/nerdcommenter' " Comment lines using <leader> cc
 Plugin 'scrooloose/nerdtree' " Navigate files
 Plugin 'Xuyuanp/nerdtree-git-plugin' " Add git indicators to NerdTree
 "Plugin 'justinmk/vim-sneak' " Jump between lines faster. Use s to start search
 Plugin 'mileszs/ack.vim' " Search text in files
-"Plugin 'SirVer/ultisnips' " Allow for snippets
-"Plugin 'honza/vim-snippets' " Snippets to use with the ultisnipts
+Plugin 'skwp/greplace.vim' " Search and replace on multiple files
+Plugin 'SirVer/ultisnips' " Allow for snippets
+Plugin 'honza/vim-snippets' " Snippets to use with the ultisnipts
+Plugin 'fishbullet/deoplete-ruby' " Autocomplete for Ruby
+Plugin 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] } " Linter and code analysis for JS
+Plugin 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] } " Autocomplete for JS using deoplete
+Plugin 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] } " Autocomplete for javascript
+Plugin 'neomake/neomake' " Run linters in the background
+Plugin 'xolox/vim-misc' " Required by easytags
+Plugin 'xolox/vim-shell' " Required by easytags
+Plugin 'xolox/vim-easytags' " Automatically generate ctags
 Plugin 'tpope/vim-surround' " Surround code with brackets etc. Use s to change surrounding
 Plugin 'ngmy/vim-rubocop'
+Plugin 'jgdavey/vim-blockle' " Transform ruby blocks using <Leader>b
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'tpope/vim-repeat'
@@ -62,6 +75,7 @@ filetype plugin indent on    " required
 
 " leader is a key that allows you to have your own "namespace" of keybindings.
 let mapleader = "\<Space>"
+nmap <leader>d :let @+= @% . ":" . line(".")
 
 " Binding.pry mapping
 nmap <leader>p obinding.pry<esc>^
@@ -97,7 +111,7 @@ set mouse=a
 
 " Set this to the name of your terminal that supports mouse codes.
 " Must be one of: xterm, xterm2, netterm, dec, jsbterm, pterm
-set ttymouse=xterm2
+"set ttymouse=xterm2
 
 "This unsets the last search pattern register by hitting return
 nnoremap <CR> :noh<CR><CR>
@@ -107,7 +121,7 @@ vnoremap // y/<C-R>"<CR>"
 " create new vsplit, and switch to it.
 noremap <leader>v <C-w>v
 " create new horizontal split
-noremap <leader>h <C-w>s
+"noremap <leader>h <C-w>s
 
 " Use macro
 nnoremap <leader>2 @q
@@ -154,8 +168,8 @@ syntax on
 " Colorscheme
 colorscheme Tomorrow-Night-Eighties
 " Copy into OS clipboard
-nmap <C-c> "*y
-"set clipboard=unnamed
+" nmap <C-c> "*y
+set clipboard=unnamed
 " Associate jbuilder files with ruby syntax
 au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 " Disable automatic comments
@@ -165,6 +179,7 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 " Vim Tmux Navigator
 let g:tmux_navigator_no_mappings = 1
 
+nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
 nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
@@ -184,6 +199,17 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
+"===============================================================================================
+" EasyTags
+let g:easytags_async=1
+set tags=./.tags;
+let g:easytags_dynamic_files = 1
+
+"===============================================================================================
+" Greplace.vim
+set grepprg=ag
+
+let g:grep_cmd_opts = '--line-numbers --noheading'
 "===============================================================================================
 " Rubocop
 
@@ -267,13 +293,6 @@ map  N <Plug>(easymotion-prev)
 
 
 "===============================================================================================
-" UltiSnips configuration
-"let g:UltiSnipsExpandTrigger="<c-q>" " Do not use tab because of YouCompleteMe
-"let g:UltiSnipsExpandTrigger="<c-c>"
-"let g:UltiSnipsListSnippets="<c-d>"
-
-
-"===============================================================================================
 " * Command Line Fuzzy Finder (fzf) and (fzf.vim)
 map <C-T> :FZF<CR>
 let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
@@ -303,6 +322,39 @@ map <C-n> :NERDTreeFind<CR>
 " Fugitive
 nmap <C-g> :Gstatus<CR>
 
+"===============================================================================================
+" Deoplete
+let g:deoplete#enable_at_startup=1
+let g:deoplete#enable_refresh_always=0
+let g:deoplete#file#enable_buffer_path=1
+
+let g:deoplete#sources={}
+let g:deoplete#sources._    = ['buffer', 'file', 'ultisnips']
+let g:deoplete#sources.ruby = ['buffer', 'member', 'file', 'ultisnips', 'ruby', 'tags']
+let g:deoplete#sources.vim  = ['buffer', 'member', 'file', 'ultisnips']
+let g:deoplete#sources['javascript.jsx'] = ['buffer', 'file', 'ultisnips', 'ternjs']
+let g:deoplete#sources.css  = ['buffer', 'member', 'file', 'omni', 'ultisnips']
+let g:deoplete#sources.scss = ['buffer', 'member', 'file', 'omni', 'ultisnips']
+let g:deoplete#sources.html = ['buffer', 'member', 'file', 'omni', 'ultisnips']
+let g:deoplete#omni#functions = {}
+set completeopt=longest,menuone,noinsert
+
+"===============================================================================================
+" Supertab
+autocmd FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+autocmd FileType ruby let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"===============================================================================================
+" UltiSnips
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-v>"
+
+"===============================================================================================
+" Neomake
+
+" Run neomake whenver a file is saved
+autocmd! BufWritePost * Neomake
 "===============================================================================================
 " Custom
 "add focus tag
