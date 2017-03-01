@@ -74,7 +74,7 @@ run_chef() {
 }
 
 grecent() {
-  git reflog -n500 --pretty='%cr|%gs' --grep-reflog='checkout: moving' HEAD | {
+  git reflog -n100 --pretty='%cr|%gs' --grep-reflog='checkout: moving' HEAD | {
     seen=":"
     git_dir="$(git rev-parse --git-dir)"
     while read line; do
