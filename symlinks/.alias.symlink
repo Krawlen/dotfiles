@@ -55,7 +55,7 @@ cr_url(){
   local customer_name=$1
   local environment=${2-$default_environment}
   local server_number=${3-$default_number}
-  local server_url="$customer_name-platform-$environment-$server_number.cloud.captivereach.com"
+  local server_url="$customer_name-platform-$environment-$server_number.cloud.clinical6.com"
   echo $server_url | pbcopy
   echo $server_url
 }

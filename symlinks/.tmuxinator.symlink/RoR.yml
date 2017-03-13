@@ -25,7 +25,7 @@ windows:
   - editor:
       layout: tiled
       panes:
-        - vim .
+        - nvim .
   - logs:
       layout: tiled
       panes:

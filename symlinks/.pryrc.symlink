@@ -1,7 +1,7 @@
 # vim: filetype=ruby
 
 # === EDITOR ===
-Pry.editor = "vim"
+Pry.editor = "nvim"
 
 
 Readline.basic_word_break_characters += '.'

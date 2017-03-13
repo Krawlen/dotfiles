@@ -52,6 +52,7 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'tpope/vim-repeat'
 "Plugin 'wincent/Command-T'
+Plugin 'majutsushi/tagbar' " Show tags in a side bar
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 " Language specific plugins
@@ -76,6 +77,8 @@ filetype plugin indent on    " required
 " leader is a key that allows you to have your own "namespace" of keybindings.
 let mapleader = "\<Space>"
 nmap <leader>d :let @+= @% . ":" . line(".")
+
+nnoremap <c-[> :pop<CR>
 
 " Binding.pry mapping
 nmap <leader>p obinding.pry<esc>^
@@ -176,6 +179,11 @@ au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 "===============================================================================================
+" EasyTags
+let g:easytags_async=1
+set tags=./.tags;
+let g:easytags_dynamic_files = 1
+"===============================================================================================
 " Vim Tmux Navigator
 let g:tmux_navigator_no_mappings = 1
 
@@ -199,11 +207,6 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
-"===============================================================================================
-" EasyTags
-let g:easytags_async=1
-set tags=./.tags;
-let g:easytags_dynamic_files = 1
 
 "===============================================================================================
 " Greplace.vim
@@ -329,20 +332,28 @@ let g:deoplete#enable_refresh_always=0
 let g:deoplete#file#enable_buffer_path=1
 
 let g:deoplete#sources={}
-let g:deoplete#sources._    = ['buffer', 'file', 'ultisnips']
-let g:deoplete#sources.ruby = ['buffer', 'member', 'file', 'ultisnips', 'ruby', 'tags']
+let g:deoplete#sources._    = ['buffer', 'file', 'tag', 'ultisnips']
+let g:deoplete#sources.ruby = ['buffer', 'member', 'file', 'ultisnips', 'ruby', 'tag']
 let g:deoplete#sources.vim  = ['buffer', 'member', 'file', 'ultisnips']
 let g:deoplete#sources['javascript.jsx'] = ['buffer', 'file', 'ultisnips', 'ternjs']
 let g:deoplete#sources.css  = ['buffer', 'member', 'file', 'omni', 'ultisnips']
 let g:deoplete#sources.scss = ['buffer', 'member', 'file', 'omni', 'ultisnips']
 let g:deoplete#sources.html = ['buffer', 'member', 'file', 'omni', 'ultisnips']
 let g:deoplete#omni#functions = {}
-set completeopt=longest,menuone,noinsert
+
+set completeopt=menuone,noselect,preview
+" Set ultisnips to a higher rank
+call deoplete#custom#set('ultisnips', 'rank', 1000)
+
+" Change behavior of Enter when autocomplete is shown Autocomplete
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function() abort
+  return deoplete#close_popup() . "\<CR>"
+endfunction
 
 "===============================================================================================
 " Supertab
-autocmd FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-autocmd FileType ruby let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+let g:SuperTabDefaultCompletionType = "<c-n>"
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 "===============================================================================================
 " UltiSnips
@@ -355,6 +366,12 @@ let g:UltiSnipsJumpBackwardTrigger="<c-v>"
 
 " Run neomake whenver a file is saved
 autocmd! BufWritePost * Neomake
+let g:neomake_ruby_enabled_markers=['mri', 'rubocop', 'reek']
+
+
+"===============================================================================================
+" Tagbar
+nmap <F8> :TagbarToggle<CR>
 "===============================================================================================
 " Custom
 "add focus tag

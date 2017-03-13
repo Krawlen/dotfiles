@@ -2,16 +2,21 @@
 
 [core]
 	ignorecase = false
-	editor = vim
+	editor = nvim
 	excludesfile = ~/.gitignore
 [include]
   path = ~/.gitconfig-local
   path = ~/.gitconfig-private
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
+	path = 
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [rerere]
 	enabled = true
+[user]
+	name =
+	email =
+[commit]
+	template = /Users/juan/.stCommitMsg

@@ -11,10 +11,10 @@ install_dependencies(){
   link_file "$(pwd)/libs/Vundle.vim" "$HOME/.vim/bundle/Vundle.vim"
 
   # If we're on a Mac, let's install and setup homebrew.
-  if [ "$(uname -s)" == "Darwin" ]
-    then
-    source "$(pwd)/os/osx/brew_libs.sh"
-  fi
+  #if [ "$(uname -s)" == "Darwin" ]
+  #  then
+    #source "$(pwd)/os/osx/brew_libs.sh"
+ # fi
 
   info "Installing fonts"
   $(pwd)/libs/fonts/install.sh
