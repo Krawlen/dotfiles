@@ -1,13 +1,11 @@
 # ~/.tmuxinator/RoR.yml
 
-name: CRoR
+name: angular
 root: ./
 
 # Optional tmux socket
 # socket_name: foo
 
-# Runs before everything. Use it to start daemons etc.
-on_project_first_start: mysql.server start
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
 #pre_window: mysql.server start
@@ -30,24 +28,6 @@ windows:
       layout: tiled
       panes:
         - server:
-          - spring rails s
+          - npm start
         - console:
-          - spring rails c
           - clear
-        - rake_commands:
-          - clear
-  - production_logs:
-      layout: tiled
-      panes:
-        - chef:
-          - source $BASE_REPO_DIR/parallel6/ops/shell_helpers/scripts/p6-ops-env-setup.sh
-          - achef12
-          - cd $BASE_REPO_DIR/parallel6/chef
-        - clear
-  - sidekiq:
-      layout: tiled
-      panes:
-        - sidekiq:
-          - sidekiq
-        - redis:
-          - redis-server

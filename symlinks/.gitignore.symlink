@@ -19,3 +19,4 @@ development.rb
 Gemfile.local
 Gemfile.local.lock
 tags
+.tag_changelog.yml

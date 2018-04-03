@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AboutToPasteTabsWithCancel</key>
+	<true/>
+	<key>AboutToPasteTabsWithCancel_selection</key>
+	<integer>2</integer>
 	<key>AdjustWindowForFontSizeChange</key>
 	<true/>
 	<key>AllowClipboardAccess</key>
@@ -14,6 +18,8 @@
 	<integer>0</integer>
 	<key>AppleSmoothFixedFontsSizeThreshold</key>
 	<integer>1</integer>
+	<key>AppleWindowTabbingMode</key>
+	<string>manual</string>
 	<key>AutoHideTmuxClientSession</key>
 	<false/>
 	<key>CheckTestRelease</key>
@@ -377,11 +383,13 @@
 	<key>HotKeyTogglesWindow</key>
 	<true/>
 	<key>Hotkey</key>
-	<true/>
+	<false/>
 	<key>HotkeyChar</key>
-	<integer>32</integer>
+	<integer>0</integer>
 	<key>HotkeyCode</key>
-	<integer>49</integer>
+	<integer>0</integer>
+	<key>HotkeyMigratedFromSingleToMulti</key>
+	<true/>
 	<key>HotkeyModifiers</key>
 	<integer>524288</integer>
 	<key>IRMemory</key>
@@ -397,9 +405,9 @@
 	<key>MaxVertically</key>
 	<false/>
 	<key>NSNavLastRootDirectory</key>
-	<string>~</string>
+	<string>~/Documents</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
-	<string>{712, 459}</string>
+	<string>{712, 448}</string>
 	<key>NSQuotedKeystrokeBinding</key>
 	<string></string>
 	<key>NSRepeatCountBinding</key>
@@ -408,42 +416,43 @@
 	<false/>
 	<key>NSScrollViewShouldScrollUnderTitlebar</key>
 	<false/>
-	<key>NSTableView Columns KeyBingingTable</key>
-	<array>
-		<data>
-		BAtzdHJlYW10eXBlZIHoA4QBQISEhAhOU1N0cmluZwGEhAhOU09iamVjdACF
-		hAErATCG
-		</data>
-		<string>198</string>
-		<data>
-		BAtzdHJlYW10eXBlZIHoA4QBQISEhAhOU1N0cmluZwGEhAhOU09iamVjdACF
-		hAErATGG
-		</data>
-		<string>322</string>
-	</array>
-	<key>NSTableView Hidden Columns KeyBingingTable</key>
-	<array/>
-	<key>NSTableView Sort Ordering KeyBingingTable</key>
-	<array/>
-	<key>NSToolbar Configuration com.apple.NSColorPanel</key>
-	<dict>
-		<key>TB Is Shown</key>
-		<integer>1</integer>
-	</dict>
-	<key>NSWindow Frame NSFontPanel</key>
-	<string>-1258 239 445 77 -2560 -322 2560 1440 </string>
-	<key>NSWindow Frame Preferences</key>
-	<string>261 442 606 456 0 0 1440 900 </string>
+	<key>NSTableView Columns v2 KeyBingingTable</key>
+	<data>
+	YnBsaXN0MDDUAQIDBAUGNjdYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
+	AAGGoK4HCA8aGxwdHh8gJjAxMlUkbnVsbNIJCgsOWk5TLm9iamVjdHNWJGNsYXNzogwN
+	gAKACoAN0xAJChEVGVdOUy5rZXlzoxITFIADgASABaMWFxiABoAHgAiACVpJZGVudGlm
+	aWVyVVdpZHRoVkhpZGRlblEwI0BowAAAAAAACNIhIiMkWiRjbGFzc25hbWVYJGNsYXNz
+	ZXNcTlNEaWN0aW9uYXJ5oiMlWE5TT2JqZWN00xAJCicrGaMSExSAA4AEgAWjLC0YgAuA
+	DIAIgAlRMSNAdCGdsi0OVtIhIjM0Xk5TTXV0YWJsZUFycmF5ozM1JVdOU0FycmF5XxAP
+	TlNLZXllZEFyY2hpdmVy0Tg5VUFycmF5gAEACAARABoAIwAtADIANwBGAEwAUQBcAGMA
+	ZgBoAGoAbABzAHsAfwCBAIMAhQCJAIsAjQCPAJEAnACiAKkAqwC0ALUAugDFAM4A2wDe
+	AOcA7gDyAPQA9gD4APwA/gEAAQIBBAEGAQ8BFAEjAScBLwFBAUQBSgAAAAAAAAIBAAAA
+	AAAAADoAAAAAAAAAAAAAAAAAAAFM
+	</data>
+	<key>NSTableView Sort Ordering v2 KeyBingingTable</key>
+	<data>
+	YnBsaXN0MDDUAQIDBAUGFBVYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
+	AAGGoKMHCA1VJG51bGzSCQoLDFpOUy5vYmplY3RzViRjbGFzc6CAAtIODxARWiRjbGFz
+	c25hbWVYJGNsYXNzZXNeTlNNdXRhYmxlQXJyYXmjEBITV05TQXJyYXlYTlNPYmplY3Rf
+	EA9OU0tleWVkQXJjaGl2ZXLRFhdVQXJyYXmAAQgRGiMtMjc7QUZRWFlbYGt0g4ePmKqt
+	swAAAAAAAAEBAAAAAAAAABgAAAAAAAAAAAAAAAAAAAC1
+	</data>
+	<key>NSTableView Supports v2 KeyBingingTable</key>
+	<true/>
 	<key>NSWindow Frame SUStatusFrame</key>
-	<string>640 691 400 129 0 0 1680 1050 </string>
+	<string>1284 1025 400 129 0 0 2560 1440 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>-1590 465 620 392 -2560 -322 2560 1440 </string>
+	<string>970 787 620 392 0 0 2560 1440 </string>
+	<key>NSWindow Frame SessionsPreferences</key>
+	<string>269 139 606 456 0 0 2560 1440 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>-1822 236 796 473 -2560 -322 2560 1440 </string>
+	<string>269 140 796 473 0 0 1440 877 </string>
+	<key>NSWindow Frame UKCrashReporter</key>
+	<string>155 496 592 584 0 0 1920 1080 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 571 1680 479 0 0 1680 1050 </string>
+	<string>0 961 2560 479 0 0 2560 1440 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>-2238 -113 650 502 -2560 -322 2560 1440 </string>
+	<string>0 0 1680 1050 0 0 1680 1050 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -1425,10 +1434,30 @@
 			</dict>
 			<key>Guid</key>
 			<string>051E280C-4A4C-471D-A6EB-7B95843A4FB8</string>
+			<key>Has Hotkey</key>
+			<true/>
 			<key>Hide After Opening</key>
 			<false/>
 			<key>Horizontal Spacing</key>
 			<real>0.89999997615814209</real>
+			<key>HotKey Characters</key>
+			<string> </string>
+			<key>HotKey Characters Ignoring Modifiers</key>
+			<string> </string>
+			<key>HotKey Key Code</key>
+			<integer>49</integer>
+			<key>HotKey Modifier Flags</key>
+			<integer>524288</integer>
+			<key>HotKey Window Animates</key>
+			<true/>
+			<key>HotKey Window AutoHides</key>
+			<true/>
+			<key>HotKey Window Dock Click Action</key>
+			<integer>0</integer>
+			<key>HotKey Window Floats</key>
+			<false/>
+			<key>HotKey Window Reopens On Activation</key>
+			<false/>
 			<key>Idle Code</key>
 			<integer>0</integer>
 			<key>Initial Text</key>
@@ -1929,32 +1958,16 @@
 			<string>/Users/juan</string>
 		</dict>
 	</array>
-	<key>NoSyncCommandHistoryHasEverBeenUsed</key>
-	<true/>
-	<key>NoSyncConfirmBeta</key>
-	<true/>
-	<key>NoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt</key>
-	<true/>
-	<key>NoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt_selection</key>
-	<integer>1</integer>
 	<key>NoSyncHaveWarnedAboutPasteConfirmationChange</key>
 	<true/>
 	<key>NoSyncInstallationId</key>
-	<string>86FE2F18-8633-43FD-98BC-3936BF91A5F5</string>
+	<string>A2BAE8C6-0F30-4447-9310-9DF9C6163142</string>
 	<key>NoSyncLastTipTime</key>
-	<real>487528677.49923003</real>
-	<key>NoSyncNeverRemindPrefsChangesCopy</key>
-	<true/>
+	<real>504125005.51211703</real>
 	<key>NoSyncPermissionToShowTip</key>
 	<true/>
-	<key>NoSyncSilenceAnnoyingBellAutomatically</key>
-	<true/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
-	<real>486516009.83998001</real>
-	<key>NoSyncTimeOfLastPromo</key>
-	<real>478569424.52690399</real>
-	<key>NoSyncTimeOfLastPromoDownload</key>
-	<real>486515974.29010999</real>
+	<real>503088412.67081898</real>
 	<key>NoSyncTipsDisabled</key>
 	<true/>
 	<key>NoSyncTipsToNotShow</key>
@@ -1965,6 +1978,7 @@
 		<string>0002</string>
 		<string>0003</string>
 		<string>0004</string>
+		<string>0005</string>
 	</array>
 	<key>OnlyWhenMoreTabs</key>
 	<false/>
@@ -1978,6 +1992,8 @@
 	<false/>
 	<key>PasteFromClipboard</key>
 	<false/>
+	<key>PasteTabToStringTabStopSize</key>
+	<integer>4</integer>
 	<key>PointerActions</key>
 	<dict>
 		<key>Button,1,1,,</key>
@@ -2012,7 +2028,7 @@
 		</dict>
 	</dict>
 	<key>PrefsCustomFolder</key>
-	<string>/Users/juanvelasquez/.dotfiles/os/osx/</string>
+	<string>/Users/juan/.dotfiles/os/osx</string>
 	<key>Print In Black And White</key>
 	<true/>
 	<key>PromptOnQuit</key>
@@ -2028,11 +2044,13 @@
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/testing.xml?shard=90</string>
+	<string>https://iterm2.com/appcasts/testing.xml?shard=8</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-11-22T23:38:21Z</date>
+	<date>2017-12-18T14:29:01Z</date>
+	<key>SUSendProfileInfo</key>
+	<false/>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -2057,6 +2075,8 @@
 	<integer>10</integer>
 	<key>TripleClickSelectsFullWrappedLines</key>
 	<false/>
+	<key>UKCrashReporterLastCrashReportDate</key>
+	<real>1507948800</real>
 	<key>URLHandlersByGuid</key>
 	<dict/>
 	<key>Use background pattern indicator</key>
@@ -2079,10 +2099,12 @@
 	<string>/-+\~_.</string>
 	<key>findIgnoreCase_iTerm</key>
 	<true/>
+	<key>findMode_iTerm</key>
+	<integer>0</integer>
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.12</string>
+	<string>3.1.5.beta.2</string>
 	<key>moveToApplicationsFolderAlertSuppress</key>
 	<true/>
 </dict>

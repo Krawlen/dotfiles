@@ -82,7 +82,6 @@ brew cask install sourcetree
 brew cask install spotify
 brew cask install vlc
 brew cask install libreoffice
-brew cask install wmail
 brew cask install bettertouchtool
 brew cask install sequel-pro
 brew cask install whatsapp
