@@ -83,7 +83,7 @@ class DotfilesInstaller
     zshrc = "#{ENV["HOME"]}/.zshrc"
     FileUtils.touch(zshrc)
     if File.read(zshrc).include?('source $HOME/.zshrc-common')
-      DotFileUtil.success 'skipped linking zshrc-common'
+      DotFileUtils.success 'skipped linking zshrc-common'
     else
       File.open("#{zshrc}.new", 'w') do |fo|
         fo.puts 'source $HOME/.zshrc-common'
@@ -114,4 +114,10 @@ class DotFileUtils
 end
 
 require 'fileutils'
-DotfilesInstaller.new(ARGV[0]).perform
+begin
+  DotfilesInstaller.new(ARGV[0]).perform
+rescue StandardError => e
+  puts "There was an error"
+  puts e.message
+  puts e.backtrace.inspect
+end
