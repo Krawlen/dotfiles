@@ -4,7 +4,7 @@ setup_gitconfig () {
     info 'setup gitconfig'
 
     git_credential='cache'
-    if [ "$(uname -s)" == "Darwin" ]
+    if [ "$(uname -s)" = "Darwin" ]
     then
       git_credential='osxkeychain'
     fi
