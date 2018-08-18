@@ -6,11 +6,11 @@ link_file () {
 
   if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
   then
-    if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
+    if [ "$overwrite_all" = "false" ] && [ "$backup_all" = "false" ] && [ "$skip_all" = "false" ]
     then
       local currentSrc="$(readlink $dst)"
 
-      if [ "$currentSrc" == "$src" ]
+      if [ "$currentSrc" = "$src" ]
       then
         skip=true;
 
@@ -45,19 +45,19 @@ link_file () {
     backup=${backup:-$backup_all}
     skip=${skip:-$skip_all}
 
-    if [ "$overwrite" == "true" ]
+    if [ "$overwrite" = "true" ]
     then
       rm -rf "$dst"
       success "removed $dst"
     fi
 
-    if [ "$backup" == "true" ]
+    if [ "$backup" = "true" ]
     then
       mv "$dst" "${dst}.backup"
       success "moved $dst to ${dst}.backup"
     fi
 
-    if [ "$skip" == "true" ]
+    if [ "$skip" = "true" ]
     then
       success "skipped $src"
     fi
@@ -74,15 +74,15 @@ link_file () {
 install_dotfiles () {
   info 'Installing Dotfiles'
   local overwrite_all=false backup_all=false skip_all=false
-  
+
   for src in $(find -H "$DOTFILES_ROOT" -maxdepth 3 -name '*.symlink')
   do
     dst=${src#$DOTFILES_ROOT/}
     dst="$HOME/${dst%.symlink}"
     link_file "$src" "$dst"
   done
-  
-  # Add the link to the zsh common file 
+
+  # Add the link to the zsh common file
   if [ -z "$(grep '.zshrc-common' $HOME/.zshrc)" ];then
     echo 'source $HOME/.zshrc-common' | cat - $HOME/.zshrc > temp && mv temp $HOME/.zshrc
     success 'zshrc linked to zshrc-common'
