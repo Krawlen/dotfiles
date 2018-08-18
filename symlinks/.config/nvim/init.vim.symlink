@@ -1,0 +1,396 @@
+set nocompatible              " be iMproved, required
+let g:deoplete#enable_at_startup = 1
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+Plugin 'tpope/vim-fugitive' " Use git commands inside of vim
+Plugin 'airblade/vim-gitgutter' " Display git status changes in the code
+Plugin 'flazz/vim-colorschemes'
+Plugin 'vim-scripts/DrawIt' " Draw lines and arrows (Math)
+Plugin 'Rykka/mathematic.vim' " Quick mathematic symbols
+Plugin 'christoomey/vim-tmux-navigator' "Use C - H, J, K , L to switch panes
+Plugin 'bling/vim-airline' " Add status line at the bottom
+"Plugin 'kien/ctrlp.vim' " Keymapped to C -t
+Plugin 'edkolev/tmuxline.vim' " Add status line to tmux
+Plugin 'editorconfig/editorconfig-vim' " Editorconfig for vim
+"Plugin 'scrooloose/syntastic' " Check syntax
+Plugin 'chrisbra/csv.vim' " CSV inside vim
+Plugin 'ntpeters/vim-better-whitespace' " Higlight trailing whitespaces
+Plugin 'Yggdroot/indentLine'  " Show indentation guides |
+Plugin 'skalnik/vim-vroom' " Run Ruby tests C-r c-R, integrates with vimux
+Plugin 'benmills/vimux' " Add small tmux window below vim, use Vimux functions to open the window
+"Plugin 'Valloric/YouCompleteMe' " Tab to auto complete
+Plugin 'Shougo/deoplete.nvim' " Autocomplete plugin for NEOVIM
+Plugin 'ervandew/supertab' " Allow the use of tab for all kinds of autocomplete
+Plugin 'scrooloose/nerdcommenter' " Comment lines using <leader> cc
+Plugin 'scrooloose/nerdtree' " Navigate files
+Plugin 'Xuyuanp/nerdtree-git-plugin' " Add git indicators to NerdTree
+"Plugin 'justinmk/vim-sneak' " Jump between lines faster. Use s to start search
+Plugin 'mileszs/ack.vim' " Search text in files
+Plugin 'skwp/greplace.vim' " Search and replace on multiple files
+Plugin 'SirVer/ultisnips' " Allow for snippets
+Plugin 'honza/vim-snippets' " Snippets to use with the ultisnipts
+Plugin 'fishbullet/deoplete-ruby' " Autocomplete for Ruby
+Plugin 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] } " Linter and code analysis for JS
+Plugin 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] } " Autocomplete for JS using deoplete
+Plugin 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] } " Autocomplete for javascript
+Plugin 'neomake/neomake' " Run linters in the background
+Plugin 'xolox/vim-misc' " Required by easytags
+Plugin 'xolox/vim-shell' " Required by easytags
+Plugin 'xolox/vim-easytags' " Automatically generate ctags
+Plugin 'tpope/vim-surround' " Surround code with brackets etc. Use s to change surrounding
+Plugin 'ngmy/vim-rubocop'
+Plugin 'jgdavey/vim-blockle' " Transform ruby blocks using <Leader>b
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'tpope/vim-repeat'
+"Plugin 'wincent/Command-T'
+Plugin 'majutsushi/tagbar' " Show tags in a side bar
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plugin 'junegunn/fzf.vim'
+" Language specific plugins
+Plugin 'leafgarland/typescript-vim' " Typescript
+Plugin 'tmux-plugins/vim-tmux'
+Plugin 'octave.vim' "Octave
+Plugin 'leshill/vim-json' " JSON highlig
+Plugin 'kchmck/vim-coffee-script' " Coffee script higlight
+Plugin 'pangloss/vim-javascript' " Javascript highlight
+Plugin 'vim-ruby/vim-ruby' " Ruby highlight
+Plugin 'slim-template/vim-slim' " Slim Highligh
+Plugin 'tpope/vim-haml' " Slim highligh
+Plugin 'tpope/vim-rails' " Rails highlight
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+
+filetype plugin indent on    " required
+
+"===============================================================================================
+" Custom Mappings
+
+" leader is a key that allows you to have your own "namespace" of keybindings.
+let mapleader = "\<Space>"
+nmap <leader>d :let @+= @% . ":" . line(".")<CR>
+
+nnoremap <c-[> :pop<CR>
+
+" Binding.pry mapping
+nmap <leader>p obinding.pry<esc>^
+" Save current file
+nnoremap <Leader>w :w<CR>
+" Exit from the current file
+nnoremap <Leader>q :q<CR>
+" Exit and save
+nnoremap <Leader>wq :wq<CR>
+
+" So we don't have to press shift when we want to get into command mode.
+nnoremap ` :
+vnoremap ` :
+
+" So we don't have to reach for escape to leave insert mode.
+inoremap jf <esc>
+inoremap jj <esc>
+
+" next/prev quicklist item
+nmap <c-b> :cprevious<CR>
+nmap <c-n> :cnext<CR>
+
+" Keybind crosshairs on and off
+hi CursorLine   cterm=NONE ctermbg=235
+hi CursorColumn cterm=NONE ctermbg=235
+nnoremap <c-x> :set cursorline! cursorcolumn!<CR>
+
+" Send more characters for redraws
+set ttyfast
+
+" Enable mouse use in all modes
+set mouse=a
+
+" Set this to the name of your terminal that supports mouse codes.
+" Must be one of: xterm, xterm2, netterm, dec, jsbterm, pterm
+"set ttymouse=xterm2
+
+"This unsets the last search pattern register by hitting return
+nnoremap <CR> :noh<CR><CR>
+" Set // to search the current visual selection
+vnoremap // y/<C-R>"<CR>"
+
+" create new vsplit, and switch to it.
+noremap <leader>v <C-w>v
+" create new horizontal split
+"noremap <leader>h <C-w>s
+
+" Use macro
+nnoremap <leader>2 @q
+" Refresh current file
+nnoremap <leader>5 :checktime<CR>
+
+"===============================================================================================
+" VIM General Settings
+
+" We have VCS -- we don't need this stuff."
+set nobackup " We have vcs, we don't need backups.
+set nowritebackup " We have vcs, we don't need backups.
+set noswapfile " They're just annoying. Who likes them?
+runtime macros/matchit.vim
+
+" don't nag me when hiding buffers
+"set autoread " when a file has changed on disk, just load it. Don't ask.
+
+" Show Line numbers
+"set relativenumber " This makes it too slow
+" Highlight current line
+"set cursorline " This is slow!!
+"set foldlevelstart=20 " Slow
+"set foldmethod=syntax " Slow
+
+set number
+" Make search more sane
+set ignorecase " case insensitive search
+"set smartcase " If there are uppercase letters, become case-sensitive.
+set incsearch " live incremental searching
+set showmatch " live match highlighting
+set hlsearch " highlight matches
+set gdefault " use the `g` flag by default.
+
+set expandtab " use spaces instead of tabs.
+set smarttab " let's tab key insert 'tab stops', and bksp deletes tabs.
+set shiftround " tab / shifting moves to closest tabstop.
+set autoindent " Match indents on new lines.
+set smartindent " Intellegently dedent / indent new lines based on rules.
+set shiftwidth=2
+
+
+syntax on
+" Colorscheme
+colorscheme Tomorrow-Night-Eighties
+" Copy into OS clipboard
+" nmap <C-c> "*y
+set clipboard=unnamed
+" Associate jbuilder files with ruby syntax
+au BufNewFile,BufRead *.json.jbuilder set ft=ruby
+" Disable automatic comments
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+"===============================================================================================
+" EasyTags
+let g:easytags_async=1
+set tags=./.tags;
+let g:easytags_dynamic_files = 1
+"===============================================================================================
+" Vim Tmux Navigator
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+
+"===============================================================================================
+" Powerline setup (Airline)
+let g:airline_powerline_fonts = 1
+set laststatus=2
+
+"===============================================================================================
+" Ack.vim
+
+" Using AG instead of ACK
+if executable('ag')
+  " Use Ag over Grep
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+
+"===============================================================================================
+" Greplace.vim
+set grepprg=ag
+
+let g:grep_cmd_opts = '--line-numbers --noheading'
+"===============================================================================================
+" Rubocop
+
+" Run Rubocop
+let g:vimrubocop_keymap = 0
+nmap <Leader>f :RuboCop -a<CR>
+
+"===============================================================================================
+" CtrlP
+
+" Remap ctrlp to ctrl-t -- map it however you like, or stick with the
+"let g:ctrlp_map = '<c-t>'
+
+" Let ctrlp have up to 30 results.
+"let g:ctrlp_max_height = 30
+"let g:ctrlp_show_hidden = 1
+
+
+"===============================================================================================
+" Syntastic
+
+" Syntastic configuration
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"let g:syntastic_quiet_messages = { "level": "warnings" }
+
+
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+
+
+"===============================================================================================
+" VROOM
+" (Run Ruby Tests within vim)
+let g:vroom_map_keys = 0
+let g:vroom_use_spring = 1
+let g:vroom_use_vimux  = 1
+nnoremap <Leader>r :VroomRunNearestTest<CR>
+
+"===============================================================================================
+" Vimux
+" Run last command on vimux
+map <Leader>e :call VimuxRunCommand("clear; spring rspec " . bufname("%") . " --color --format d ")<CR>
+map <Leader>g :VimuxRunLastCommand<CR>
+
+
+"===============================================================================================
+" Easy Motion
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
+" Bi-directional find motion
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+nmap <space>s <Plug>(easymotion-s)
+" or
+" `s{char}{char}{label}`
+" Need one more keystroke, but on average, it may be more comfortable.
+nmap s <Plug>(easymotion-s2)
+
+" Turn on case insensitive feature
+let g:EasyMotion_smartcase = 1
+
+" JK motions: Line motions
+map <Leader>l <Plug>(easymotion-lineforward)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>h <Plug>(easymotion-linebackward)
+
+" Full search Gif config
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+
+" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+" Without these mappings, `n` & `N` works fine. (These mappings just provide
+" different highlight method and have some other features )
+map  n <Plug>(easymotion-next)
+map  N <Plug>(easymotion-prev)
+
+
+"===============================================================================================
+" * Command Line Fuzzy Finder (fzf) and (fzf.vim)
+map <C-T> :FZF<CR>
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+let g:fzf_layout = { 'down': '~20%' }
+"===============================================================================================
+" Command-T
+
+"nnoremap <silent> <C-t> :CommandT<CR>
+"let g:CommandTMaxHeight = 25
+"let g:CommandTFileScanner= 'ruby'
+"let g:CommandTAlwaysShowDotFiles = 1
+"let g:CommandTScanDotDirectories = 1
+"let g:CommandTMatchWindowReverse = 1
+"set wildignore+=.git*,vendor/**/*,admin_themes/**/*,tmp*,.DS_Store
+"let g:CommandTCancelMap=['<C-c>', '<Esc>']
+"let g:CommandTAcceptSelectionSplitMap = '<C-x>'
+"let g:CommandTRefreshMap = '<C-r>'
+
+"===============================================================================================
+" NerdTree
+"autocmd vimenter * NERDTree
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+let NERDTreeShowHidden=1
+map <C-p> :NERDTreeFind<CR>
+map <C-n> :NERDTreeToggle<CR>
+
+"===============================================================================================
+" Fugitive
+nmap <C-g> :Gstatus<CR>
+
+"===============================================================================================
+" Deoplete
+let g:deoplete#enable_at_startup=1
+let g:deoplete#enable_refresh_always=0
+let g:deoplete#file#enable_buffer_path=1
+
+let g:deoplete#sources={}
+let g:deoplete#sources._    = ['buffer', 'file', 'tag', 'ultisnips']
+let g:deoplete#sources.ruby = ['buffer', 'member', 'file', 'ultisnips', 'ruby', 'tag']
+let g:deoplete#sources.vim  = ['buffer', 'member', 'file', 'ultisnips']
+let g:deoplete#sources['javascript.jsx'] = ['buffer', 'file', 'ultisnips', 'ternjs']
+let g:deoplete#sources.css  = ['buffer', 'member', 'file', 'omni', 'ultisnips']
+let g:deoplete#sources.scss = ['buffer', 'member', 'file', 'omni', 'ultisnips']
+let g:deoplete#sources.html = ['buffer', 'member', 'file', 'omni', 'ultisnips']
+let g:deoplete#omni#functions = {}
+
+set completeopt=menuone,noselect,preview
+" Set ultisnips to a higher rank
+call deoplete#custom#set('ultisnips', 'rank', 1000)
+
+" Change behavior of Enter when autocomplete is shown Autocomplete
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function() abort
+  return deoplete#close_popup() . "\<CR>"
+endfunction
+
+"===============================================================================================
+" Supertab
+let g:SuperTabDefaultCompletionType = "<c-n>"
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"===============================================================================================
+" UltiSnips
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-v>"
+
+"===============================================================================================
+" Neomake
+
+" Run neomake whenver a file is saved
+autocmd! BufWritePost * Neomake
+let g:neomake_ruby_enabled_markers=['mri', 'rubocop', 'reek']
+
+
+"===============================================================================================
+" Tagbar
+nmap <F8> :TagbarToggle<CR>
+"===============================================================================================
+" Custom
+"add focus tag
+function! AddFocusTag()
+  let it_example = getline('.')
+  if match(it_example, "', focus: true do") != -1
+    let changed_it_example = substitute(it_example, "', focus: true do", "' do", "")
+  elseif match(it_example, "\", focus: true do") != -1
+    let changed_it_example = substitute(it_example, "\", focus: true do", "\" do", "")
+  elseif match(it_example, "\" do") != -1
+    let changed_it_example = substitute(it_example, "\" do", "\", focus: true do", "")
+  elseif match(it_example, "' do", "', focus: true do", "") != -1
+    let changed_it_example = substitute(it_example, "' do", "', focus: true do", "")
+  endif
+  call setline('.', changed_it_example)
+endfunction
+:command! AddFocusTag :call AddFocusTag()
+:map <leader>y :AddFocusTag<cr>
+
