@@ -25,7 +25,7 @@ brew upgrade
 # brew install mysql
 brew install mysql
 # Python
-brew install python
+brew install python2
 # Python3
 brew install python3
 # ImageMagick
@@ -52,6 +52,8 @@ brew install the_silver_searcher
 brew install noti
 # Install Node
 brew install npm
+# Install Ctag -> Used in nvim
+brew install ctags
 # Install JS Plugins!
 npm install -g tern
 npm install -g jslint
@@ -69,6 +71,18 @@ brew install htop
 brew install neovim/neovim/neovim
 # Install neovim python 3 plugin
 pip3 install neovim
+# Install neovim python 2 plugin
+pip install neovim
+# Install neovim node plugin
+npm install -g neovim
+# Install gpg (required for rvm)
+brew install gpg
+
+# Install RVM
+gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+\curl -sSL https://get.rvm.io | bash -s stable
+
+
 #web proxy -----****
 #brew install mitmproxy
 
