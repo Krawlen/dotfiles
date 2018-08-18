@@ -2,7 +2,7 @@
 #
 # bootstrap installs things.
 # DO NOT source bootstrap.sh, it is only necessary to call ./bootstrap.sh
-# 
+#
 
 if [ -z "$1" ]; then
   DOTFILES_ROOT=$( cd "$( dirname "$0" )" && pwd )/symlinks
@@ -23,7 +23,7 @@ echo ''
 
 setup_gitconfig
 install_dependencies
-install_dotfiles
+ruby ./scripts/install_dotfiles.rb $DOTFILES_ROOT
 
 
 
