@@ -45,9 +45,26 @@ require 'rubygems'
 
 # === CUSTOM COMMANDS ===
 # from: https://gist.github.com/1297510
+
+def pbcopy(str)
+  IO.popen('pbcopy', 'r+') {|io| io.puts str }
+  output.puts "-- Copy to clipboard --\n#{str}"
+end
+
 default_command_set = Pry::CommandSet.new do
-  command 'copy', 'Copy argument to the clip-board' do |str|
-    IO.popen('pbcopy', 'w') { |f| f << str.to_s }
+  command "hiscopy", "History copy to clipboard" do |n|
+    pbcopy _pry_.input_array[n ? n.to_i : -1]
+  end
+
+  command "copy", "Copy to clipboard" do |str|
+    unless str
+      str = "#{_pry_.input_array[-1]}#=> #{_pry_.last_result}\n"
+    end
+    pbcopy str
+  end
+
+  command "lastcopy", "Last result copy to clipboard" do
+    pbcopy _pry_.last_result.to_s.chomp
   end
 
   command 'clear' do

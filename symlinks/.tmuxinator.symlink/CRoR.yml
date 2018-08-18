@@ -51,3 +51,12 @@ windows:
           - sidekiq
         - redis:
           - redis-server
+  - jira-management:
+      layout: 883a,238x55,0,0{158x55,0,0,3,79x55,159,0,7}
+      panes:
+        - editor:
+          - cd $BASE_REPO_DIR/parallel6/jira-management/
+          - nvim .
+        - console:
+          - cd $BASE_REPO_DIR/parallel6/jira-management/
+          - bundle console
