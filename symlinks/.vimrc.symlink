@@ -52,11 +52,9 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'tpope/vim-repeat'
 "Plugin 'wincent/Command-T'
-Plugin 'majutsushi/tagbar' " Show tags in a side bar
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 " Language specific plugins
-Plugin 'leafgarland/typescript-vim' " Typescript
 Plugin 'tmux-plugins/vim-tmux'
 Plugin 'octave.vim' "Octave
 Plugin 'leshill/vim-json' " JSON highlig
@@ -77,9 +75,7 @@ filetype plugin indent on    " required
 
 " leader is a key that allows you to have your own "namespace" of keybindings.
 let mapleader = "\<Space>"
-nmap <leader>d :let @+= @% . ":" . line(".")<CR>
-
-nnoremap <c-[> :pop<CR>
+nmap <leader>d :let @+= @% . ":" . line(".")
 
 " Binding.pry mapping
 nmap <leader>p obinding.pry<esc>^
@@ -180,11 +176,6 @@ au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 "===============================================================================================
-" EasyTags
-let g:easytags_async=1
-set tags=./.tags;
-let g:easytags_dynamic_files = 1
-"===============================================================================================
 " Vim Tmux Navigator
 let g:tmux_navigator_no_mappings = 1
 
@@ -208,6 +199,11 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
+"===============================================================================================
+" EasyTags
+let g:easytags_async=1
+set tags=./.tags;
+let g:easytags_dynamic_files = 1
 
 "===============================================================================================
 " Greplace.vim
@@ -320,9 +316,7 @@ let g:fzf_layout = { 'down': '~20%' }
 "autocmd vimenter * NERDTree
 "autocmd StdinReadPre * let s:std_in=1
 "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-let NERDTreeShowHidden=1
-map <C-p> :NERDTreeFind<CR>
-map <C-n> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeFind<CR>
 
 "===============================================================================================
 " Fugitive
@@ -335,28 +329,20 @@ let g:deoplete#enable_refresh_always=0
 let g:deoplete#file#enable_buffer_path=1
 
 let g:deoplete#sources={}
-let g:deoplete#sources._    = ['buffer', 'file', 'tag', 'ultisnips']
-let g:deoplete#sources.ruby = ['buffer', 'member', 'file', 'ultisnips', 'ruby', 'tag']
+let g:deoplete#sources._    = ['buffer', 'file', 'ultisnips']
+let g:deoplete#sources.ruby = ['buffer', 'member', 'file', 'ultisnips', 'ruby', 'tags']
 let g:deoplete#sources.vim  = ['buffer', 'member', 'file', 'ultisnips']
 let g:deoplete#sources['javascript.jsx'] = ['buffer', 'file', 'ultisnips', 'ternjs']
 let g:deoplete#sources.css  = ['buffer', 'member', 'file', 'omni', 'ultisnips']
 let g:deoplete#sources.scss = ['buffer', 'member', 'file', 'omni', 'ultisnips']
 let g:deoplete#sources.html = ['buffer', 'member', 'file', 'omni', 'ultisnips']
 let g:deoplete#omni#functions = {}
-
-set completeopt=menuone,noselect,preview
-" Set ultisnips to a higher rank
-call deoplete#custom#set('ultisnips', 'rank', 1000)
-
-" Change behavior of Enter when autocomplete is shown Autocomplete
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function() abort
-  return deoplete#close_popup() . "\<CR>"
-endfunction
+set completeopt=longest,menuone,noinsert
 
 "===============================================================================================
 " Supertab
-let g:SuperTabDefaultCompletionType = "<c-n>"
+autocmd FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+autocmd FileType ruby let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 "===============================================================================================
 " UltiSnips
@@ -369,12 +355,6 @@ let g:UltiSnipsJumpBackwardTrigger="<c-v>"
 
 " Run neomake whenver a file is saved
 autocmd! BufWritePost * Neomake
-let g:neomake_ruby_enabled_markers=['mri', 'rubocop', 'reek']
-
-
-"===============================================================================================
-" Tagbar
-nmap <F8> :TagbarToggle<CR>
 "===============================================================================================
 " Custom
 "add focus tag
@@ -393,4 +373,3 @@ function! AddFocusTag()
 endfunction
 :command! AddFocusTag :call AddFocusTag()
 :map <leader>y :AddFocusTag<cr>
-
