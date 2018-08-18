@@ -346,7 +346,7 @@ let g:deoplete#omni#functions = {}
 
 set completeopt=menuone,noselect,preview
 " Set ultisnips to a higher rank
-call deoplete#custom#set('ultisnips', 'rank', 1000)
+call deoplete#custom#source('ultisnips', 'rank', 1000)
 
 " Change behavior of Enter when autocomplete is shown Autocomplete
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
