@@ -27,7 +27,6 @@ Plugin 'Yggdroot/indentLine'  " Show indentation guides |
 Plugin 'skalnik/vim-vroom' " Run Ruby tests C-r c-R, integrates with vimux
 Plugin 'benmills/vimux' " Add small tmux window below vim, use Vimux functions to open the window
 "Plugin 'Valloric/YouCompleteMe' " Tab to auto complete
-Plugin 'Shougo/deoplete.nvim' " Autocomplete plugin for NEOVIM
 Plugin 'ervandew/supertab' " Allow the use of tab for all kinds of autocomplete
 Plugin 'scrooloose/nerdcommenter' " Comment lines using <leader> cc
 Plugin 'scrooloose/nerdtree' " Navigate files
@@ -37,9 +36,7 @@ Plugin 'mileszs/ack.vim' " Search text in files
 Plugin 'skwp/greplace.vim' " Search and replace on multiple files
 Plugin 'SirVer/ultisnips' " Allow for snippets
 Plugin 'honza/vim-snippets' " Snippets to use with the ultisnipts
-Plugin 'fishbullet/deoplete-ruby' " Autocomplete for Ruby
 Plugin 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] } " Linter and code analysis for JS
-Plugin 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] } " Autocomplete for JS using deoplete
 Plugin 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] } " Autocomplete for javascript
 Plugin 'neomake/neomake' " Run linters in the background
 Plugin 'xolox/vim-misc' " Required by easytags
@@ -322,22 +319,6 @@ map <C-n> :NERDTreeFind<CR>
 " Fugitive
 nmap <C-g> :Gstatus<CR>
 
-"===============================================================================================
-" Deoplete
-let g:deoplete#enable_at_startup=1
-let g:deoplete#enable_refresh_always=0
-let g:deoplete#file#enable_buffer_path=1
-
-let g:deoplete#sources={}
-let g:deoplete#sources._    = ['buffer', 'file', 'ultisnips']
-let g:deoplete#sources.ruby = ['buffer', 'member', 'file', 'ultisnips', 'ruby', 'tags']
-let g:deoplete#sources.vim  = ['buffer', 'member', 'file', 'ultisnips']
-let g:deoplete#sources['javascript.jsx'] = ['buffer', 'file', 'ultisnips', 'ternjs']
-let g:deoplete#sources.css  = ['buffer', 'member', 'file', 'omni', 'ultisnips']
-let g:deoplete#sources.scss = ['buffer', 'member', 'file', 'omni', 'ultisnips']
-let g:deoplete#sources.html = ['buffer', 'member', 'file', 'omni', 'ultisnips']
-let g:deoplete#omni#functions = {}
-set completeopt=longest,menuone,noinsert
 
 "===============================================================================================
 " Supertab
