@@ -31,8 +31,8 @@ else
   alias seed="spring rake db:seed"
 fi
 
-alias st_ror="mux s RoR"
-alias st_cr="mux s CRoR"
+alias st_ror="tmuxinator s RoR"
+alias st_cr="tmuxinator s CRoR"
 alias st_angular="mux s angular"
 alias zshconfig="subl ~/.zshrc"
 alias ohmyzsh="subl ~/.oh-my-zsh"
