@@ -18,5 +18,3 @@
 [user]
 	name = Juan Velasquez
 	email = jvelasquez@parallel6.com
-[commit]
-	template = /Users/juan/.stCommitMsg
