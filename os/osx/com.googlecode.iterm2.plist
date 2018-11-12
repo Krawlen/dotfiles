@@ -405,7 +405,7 @@
 	<key>MaxVertically</key>
 	<false/>
 	<key>NSNavLastRootDirectory</key>
-	<string>~/Documents</string>
+	<string>~/dotfiles/os/osx</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
 	<string>{712, 448}</string>
 	<key>NSQuotedKeystrokeBinding</key>
@@ -439,20 +439,14 @@
 	</data>
 	<key>NSTableView Supports v2 KeyBingingTable</key>
 	<true/>
-	<key>NSWindow Frame SUStatusFrame</key>
-	<string>1284 1025 400 129 0 0 2560 1440 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>530 493 620 392 0 0 1680 1050 </string>
-	<key>NSWindow Frame SessionsPreferences</key>
-	<string>269 139 606 456 0 0 2560 1440 </string>
+	<string>530 496 620 392 0 0 1680 1027 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>-1316 545 796 486 -2560 49 2560 1418 </string>
-	<key>NSWindow Frame UKCrashReporter</key>
-	<string>155 496 592 584 0 0 1920 1080 </string>
+	<string>203 387 796 486 0 0 1680 1050 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 549 1680 479 0 0 1680 1028 </string>
-	<key>NSWindow Frame iTerm Window 1</key>
 	<string>0 0 1680 1050 0 0 1680 1050 </string>
+	<key>NSWindow Frame iTerm Window 1</key>
+	<string>212 106 650 502 0 0 1680 1050 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -1961,25 +1955,11 @@
 	<key>NoSyncHaveWarnedAboutPasteConfirmationChange</key>
 	<true/>
 	<key>NoSyncInstallationId</key>
-	<string>A2BAE8C6-0F30-4447-9310-9DF9C6163142</string>
-	<key>NoSyncLastTipTime</key>
-	<real>504125005.51211703</real>
+	<string>0E007920-F1EE-4D81-B3E4-0F74D1AD7723</string>
 	<key>NoSyncPermissionToShowTip</key>
-	<true/>
+	<false/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
-	<real>503088412.67081898</real>
-	<key>NoSyncTipsDisabled</key>
-	<true/>
-	<key>NoSyncTipsToNotShow</key>
-	<array>
-		<string>000</string>
-		<string>0000</string>
-		<string>0001</string>
-		<string>0002</string>
-		<string>0003</string>
-		<string>0004</string>
-		<string>0005</string>
-	</array>
+	<real>556575954.29333699</real>
 	<key>OnlyWhenMoreTabs</key>
 	<false/>
 	<key>OpenArrangementAtStartup</key>
@@ -2028,7 +2008,7 @@
 		</dict>
 	</dict>
 	<key>PrefsCustomFolder</key>
-	<string>/Users/juan/.dotfiles/os/osx</string>
+	<string>/Users/juanvelasquez/dotfiles/os/osx</string>
 	<key>Print In Black And White</key>
 	<true/>
 	<key>PromptOnQuit</key>
@@ -2044,11 +2024,11 @@
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/testing.xml?shard=8</string>
+	<string>https://iterm2.com/appcasts/testing.xml?shard=78</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-07-30T19:21:22Z</date>
+	<date>2018-08-25T18:02:37Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SavePasteHistory</key>
@@ -2063,6 +2043,8 @@
 	<false/>
 	<key>SplitPaneDimmingAmount</key>
 	<real>0.40000000596046448</real>
+	<key>SuppressRestartAnnouncement</key>
+	<true/>
 	<key>SwitchTabModifier</key>
 	<integer>6</integer>
 	<key>SwitchWindowModifier</key>
@@ -2075,8 +2057,6 @@
 	<integer>10</integer>
 	<key>TripleClickSelectsFullWrappedLines</key>
 	<false/>
-	<key>UKCrashReporterLastCrashReportDate</key>
-	<real>1507948800</real>
 	<key>URLHandlersByGuid</key>
 	<dict/>
 	<key>Use background pattern indicator</key>
@@ -2104,8 +2084,6 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.2.0beta8</string>
-	<key>moveToApplicationsFolderAlertSuppress</key>
-	<true/>
+	<string>3.2.1beta1</string>
 </dict>
 </plist>

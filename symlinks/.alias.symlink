@@ -7,7 +7,7 @@ command_exists () {
 alias achef11="ln -sf ~/.chef/knife11.rb ~/.chef/knife.rb"
 alias achef12="ln -sf ~/.chef/knife12.rb ~/.chef/knife.rb"
 alias dl="cd ~/Downloads"
-alias notes="cd ~/Notes"
+alias notes="cd ~/Notes/*/notes"
 alias dt="cd ~/Desktop"
 alias ws="cd ~/Workspace"
 alias p6="cd ~/Workspace/parallel6"

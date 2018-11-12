@@ -17,6 +17,8 @@ Plugin 'vim-scripts/DrawIt' " Draw lines and arrows (Math)
 Plugin 'Rykka/mathematic.vim' " Quick mathematic symbols
 Plugin 'christoomey/vim-tmux-navigator' "Use C - H, J, K , L to switch panes
 Plugin 'bling/vim-airline' " Add status line at the bottom
+"Plugin 'tpope/vim-obsession'
+"Plugin 'dhruvasagar/vim-prosession'
 "Plugin 'kien/ctrlp.vim' " Keymapped to C -t
 Plugin 'edkolev/tmuxline.vim' " Add status line to tmux
 Plugin 'editorconfig/editorconfig-vim' " Editorconfig for vim
@@ -286,14 +288,14 @@ map <Leader>k <Plug>(easymotion-k)
 map <Leader>h <Plug>(easymotion-linebackward)
 
 " Full search Gif config
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
+"map  / <Plug>(easymotion-sn)
+"omap / <Plug>(easymotion-tn)
 
 " These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
 " Without these mappings, `n` & `N` works fine. (These mappings just provide
 " different highlight method and have some other features )
-map  n <Plug>(easymotion-next)
-map  N <Plug>(easymotion-prev)
+"map  n <Plug>(easymotion-next)
+"map  N <Plug>(easymotion-prev)
 
 
 "===============================================================================================
@@ -393,4 +395,11 @@ function! AddFocusTag()
 endfunction
 :command! AddFocusTag :call AddFocusTag()
 :map <leader>y :AddFocusTag<cr>
+
+"===============================================================================================
+" ProSession
+
+let g:prosession_default_session = 0
+let g:prosession_on_startup = 1
+nnoremap <Leader>t :Prosession<Space>
 
