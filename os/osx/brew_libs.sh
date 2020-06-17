@@ -24,6 +24,8 @@ brew upgrade
 # MYSQL
 # brew install mysql
 brew install mysql
+# Manage python envs
+brew install pyenv
 # Python
 brew install python2
 # Python3

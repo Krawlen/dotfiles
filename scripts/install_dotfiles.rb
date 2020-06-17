@@ -68,7 +68,7 @@ class DotfilesInstaller
   def perform
     DotFileUtils.info 'Installing Dotfiles'
 
-    files = `find -H #{dotfiles_root} -maxdepth 3 -name '*.symlink'`.split("\n")
+    files = `find -H #{dotfiles_root} -maxdepth 7 -name '*.symlink'`.split("\n")
     files.each do |source|
       dst = "#{ENV['HOME']}#{source.gsub(dotfiles_root, '')}"
       dst = dst.gsub('.symlink', '')

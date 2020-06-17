@@ -46,7 +46,7 @@ Plugin 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] } " Autocomp
 Plugin 'neomake/neomake' " Run linters in the background
 Plugin 'xolox/vim-misc' " Required by easytags
 Plugin 'xolox/vim-shell' " Required by easytags
-Plugin 'xolox/vim-easytags' " Automatically generate ctags
+"Plugin 'xolox/vim-easytags' " Automatically generate ctags
 Plugin 'tpope/vim-surround' " Surround code with brackets etc. Use s to change surrounding
 Plugin 'ngmy/vim-rubocop'
 Plugin 'jgdavey/vim-blockle' " Transform ruby blocks using <Leader>b
@@ -58,6 +58,7 @@ Plugin 'majutsushi/tagbar' " Show tags in a side bar
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 " Language specific plugins
+Plugin 'jtratner/vim-flavored-markdown' " Markdown
 Plugin 'leafgarland/typescript-vim' " Typescript
 Plugin 'tmux-plugins/vim-tmux'
 Plugin 'octave.vim' "Octave
@@ -68,6 +69,7 @@ Plugin 'vim-ruby/vim-ruby' " Ruby highlight
 Plugin 'slim-template/vim-slim' " Slim Highligh
 Plugin 'tpope/vim-haml' " Slim highligh
 Plugin 'tpope/vim-rails' " Rails highlight
+"Plugin 'greggroth/vim-cucumber-folding'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -150,8 +152,8 @@ runtime macros/matchit.vim
 "set relativenumber " This makes it too slow
 " Highlight current line
 "set cursorline " This is slow!!
-"set foldlevelstart=20 " Slow
-"set foldmethod=syntax " Slow
+set foldlevelstart=20 " Slow
+set foldmethod=syntax " Slow
 
 set number
 " Make search more sane
@@ -300,8 +302,9 @@ map <Leader>h <Plug>(easymotion-linebackward)
 
 "===============================================================================================
 " * Command Line Fuzzy Finder (fzf) and (fzf.vim)
-map <C-T> :FZF<CR>
-let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+map <C-t> :FZF<CR>
+map <C-t><C-t> :call fzf#run({'source': 'ag --hidden -g .', 'down': '~20%'})<CR>
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git --ignore-dir spec/cassettes/ -g ""'
 let g:fzf_layout = { 'down': '~20%' }
 "===============================================================================================
 " Command-T
@@ -403,3 +406,9 @@ let g:prosession_default_session = 0
 let g:prosession_on_startup = 1
 nnoremap <Leader>t :Prosession<Space>
 
+"===============================================================================================
+" Markdown
+augroup markdown
+    au!
+    au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
+augroup END
