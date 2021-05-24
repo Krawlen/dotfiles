@@ -9,6 +9,7 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
+Plugin 'groovy.vim'
 Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-fugitive' " Use git commands inside of vim
 Plugin 'airblade/vim-gitgutter' " Display git status changes in the code
@@ -177,7 +178,7 @@ syntax on
 colorscheme Tomorrow-Night-Eighties
 " Copy into OS clipboard
 " nmap <C-c> "*y
-set clipboard=unnamed
+set clipboard=unnamedplus
 " Associate jbuilder files with ruby syntax
 au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 " Disable automatic comments

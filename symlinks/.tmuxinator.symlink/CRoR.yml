@@ -41,7 +41,8 @@ windows:
       panes:
         - chef:
           - source $BASE_REPO_DIR/parallel6/ops/shell_helpers/scripts/p6-ops-env-setup.sh
-          - achef12
+            export KNIFE_NODE_NAME=jvelasquez
+            export USER=jvelasquez
           - cd $BASE_REPO_DIR/parallel6/chef
         - clear
   - sidekiq:

@@ -22,7 +22,7 @@ echo ''
 
 
 #setup_gitconfig
-#install_dependencies
+install_dependencies
 ruby ./scripts/install_dotfiles.rb $DOTFILES_ROOT
 
 

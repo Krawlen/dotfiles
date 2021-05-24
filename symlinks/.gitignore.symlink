@@ -20,3 +20,5 @@ Gemfile.local
 Gemfile.local.lock
 tags
 .tag_changelog.yml
+*.code-workspace
+.groovylintrc.json
