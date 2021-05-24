@@ -7,6 +7,8 @@ unset file;
 
 source ~/.antigen/antigen.zsh
 antigen use oh-my-zsh
+antigen bundle kubectl
+antigen bundle kube-ps1
 antigen bundle git
 antigen bundle vi-mode
 antigen bundle gitfast
@@ -46,3 +48,4 @@ zle -N zle-keymap-select
 
 # zle -N zle-line-init
 # eval `dircolors ~/.dircolors`
+PROMPT='$(kube_ps1)'$PROMPT
