@@ -1,0 +1,47 @@
+# ~/.tmuxinator/devops.yml
+
+name: devops
+root: ~/Workspace/parallel6/provenance-infrastructure
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+#pre_window: mysql.server start
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+# Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
+# startup_window: logs
+
+windows:
+  - infra-editor:
+      layout: tiled
+      panes:
+        - nvim .
+  - helm-editor:
+      layout: tiled
+      panes:
+        - helm-editor:
+          - cd ~/Workspace/parallel6/provenance-helm-charts
+          - nvim .
+  - kubectl:
+      layout: tiled
+      panes:
+        - clear
+  - knife:
+      layout: tiled
+      panes:
+        - chef:
+          - source $BASE_REPO_DIR/parallel6/ops/shell_helpers/scripts/p6-ops-env-setup.sh
+          - export KNIFE_NODE_NAME=jvelasquez
+          - export USER=jvelasquez
+          - cd $BASE_REPO_DIR/parallel6/chef
+          - rvm use 2.4
+
+
+

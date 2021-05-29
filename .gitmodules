@@ -10,3 +10,6 @@
 [submodule "libs/fonts"]
 	path = libs/fonts
 	url = git@github.com:powerline/fonts.git
+[submodule "libs/kubectx"]
+	path = libs/kubectx
+	url = git@github.com:ahmetb/kubectx.git

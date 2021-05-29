@@ -1,12 +1,18 @@
 # vim: filetype=zsh
-for file in ~/.{exports,alias}; do
+
+[[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
+complete -F __start_kubectl k
+
+[[ /usr/local/bin/helm ]] && source <(helm completion zsh)
+
+for file in ~/.{exports,alias,kubectl_aliases}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
 
-
 source ~/.antigen/antigen.zsh
 antigen use oh-my-zsh
+antigen bundle asdf
 antigen bundle kubectl
 antigen bundle kube-ps1
 antigen bundle git
@@ -49,3 +55,6 @@ zle -N zle-keymap-select
 # zle -N zle-line-init
 # eval `dircolors ~/.dircolors`
 PROMPT='$(kube_ps1)'$PROMPT
+
+autoload -U compinit && compinit
+

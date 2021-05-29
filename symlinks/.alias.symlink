@@ -15,6 +15,13 @@ alias cr="cd ~/Workspace/parallel6/captivereach"
 alias localip="ipconfig getifaddr en0"
 alias lror="lsof -wni tcp:3000"
 
+# Devops Alias
+alias cdinfra="cd ~/Workspace/parallel6/provenance-infrastructure"
+alias cdhelm="cd ~/Workspace/parallel6/provenance-helm-charts"
+alias ktx="kubectx"
+alias kns="kubens"
+alias h="helm"
+
 if command_exists noti ; then
   alias rdbm="noti spring rake db:migrate"
   alias rdbsl="noti spring rake db:schema:load"
@@ -35,6 +42,7 @@ fi
 
 alias st_ror="tmuxinator s RoR"
 alias st_cr="tmuxinator s CRoR"
+alias st_devops="tmuxinator s devops"
 alias st_angular="mux s angular"
 alias zshconfig="subl ~/.zshrc"
 alias ohmyzsh="subl ~/.oh-my-zsh"
