@@ -68,6 +68,8 @@ brew install awscli
 brew install stern
 # Instal Helm
 brew install helm
+# Install docker
+brew install docker
 
 #web proxy -----****
 #brew install mitmproxy
