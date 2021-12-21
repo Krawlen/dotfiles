@@ -1,7 +1,7 @@
 # ~/.tmuxinator/devops.yml
 
 name: devops
-root: ~/Workspace/parallel6/provenance-infrastructure
+root: ~/Workspace/parallel6/
 
 # Optional tmux socket
 # socket_name: foo
@@ -20,15 +20,17 @@ root: ~/Workspace/parallel6/provenance-infrastructure
 
 windows:
   - infra-editor:
-      layout: tiled
+      layout: main-horizontal
       panes:
         - nvim .
+        - clear
   - helm-editor:
-      layout: tiled
+      layout: main-horizontal
       panes:
         - helm-editor:
           - cd ~/Workspace/parallel6/provenance-helm-charts
           - nvim .
+        - clear
   - kubectl:
       layout: tiled
       panes:
