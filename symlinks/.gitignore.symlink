@@ -22,3 +22,5 @@ tags
 .tag_changelog.yml
 *.code-workspace
 .groovylintrc.json
+.vscode/
+
