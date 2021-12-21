@@ -7,4 +7,6 @@
 [submodule "libs/fonts"]
 	path = libs/fonts
 	url = git@github.com:powerline/fonts.git
-
+[submodule "os/linux/razer-nari-pulseaudio-profile"]
+	path = os/linux/razer-nari-pulseaudio-profile
+	url = https://github.com/imustafin/razer-nari-pulseaudio-profile
