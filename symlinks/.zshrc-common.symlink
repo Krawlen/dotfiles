@@ -10,6 +10,8 @@ antigen use oh-my-zsh
 antigen bundle asdf
 antigen bundle kubectl
 antigen bundle kube-ps1
+antigen bundle terraform
+antigen bundle helm
 antigen bundle git
 antigen bundle vi-mode
 antigen bundle gitfast

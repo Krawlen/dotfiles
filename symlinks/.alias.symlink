@@ -21,6 +21,7 @@ alias cdhelm="cd ~/Workspace/parallel6/provenance-helm-charts"
 alias ktx="kubectx"
 alias kns="kubens"
 alias h="helm"
+alias tf="terraform"
 
 if command_exists noti ; then
   alias rdbm="noti spring rake db:migrate"
