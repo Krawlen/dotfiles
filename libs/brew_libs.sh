@@ -49,7 +49,7 @@ brew install qt
 # Install Command-line Fuzzy Finder
 brew install fzf
 # Add key fzf keybindings
-/usr/local/opt/fzf/install
+$(brew --prefix)/opt/fzf/install
 # htop - Monitoring tool
 brew install htop
 brew install yarn
