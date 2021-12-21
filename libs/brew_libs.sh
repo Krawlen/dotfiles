@@ -42,10 +42,6 @@ brew install zsh
 brew install the_silver_searcher
 # Notify when a process completes
 brew install noti
-# Install Node
- # This loads nvm bash_completion
-
-
 # Install Ctag -> Used in nvim
 brew install ctags
 #Install qt
@@ -56,26 +52,22 @@ brew install fzf
 /usr/local/opt/fzf/install
 # htop - Monitoring tool
 brew install htop
-# Install gpg (required for rvm)
-brew install gpg
 brew install yarn
 
 # Install kubectl
 brew install kubectl
 brew install kubectx
-
-
-
+brew install kubens
 # Install tfenv
 brew install tfenv
-
 # Install Azure CLI
 brew install azure-cli
-
 # Install AWS CLI
 brew install awscli
-
+# Install stern to search kubernetes logs
 brew install stern
+# Instal Helm
+brew instlal helm
 
 #web proxy -----****
 #brew install mitmproxy
