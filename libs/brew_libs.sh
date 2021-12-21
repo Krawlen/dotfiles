@@ -57,7 +57,7 @@ brew install yarn
 # Install kubectl
 brew install kubectl
 brew install kubectx
-brew install kubens
+
 # Install tfenv
 brew install tfenv
 # Install Azure CLI
@@ -67,7 +67,7 @@ brew install awscli
 # Install stern to search kubernetes logs
 brew install stern
 # Instal Helm
-brew instlal helm
+brew install helm
 
 #web proxy -----****
 #brew install mitmproxy
