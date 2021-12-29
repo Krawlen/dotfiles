@@ -20,16 +20,10 @@ root: ~/Workspace/parallel6/
 
 windows:
   - infra-editor:
-      layout: main-horizontal
+      layout: 6aa1,190x44,0,0[190x28,0,0,0,190x15,0,29,3]
       panes:
-        - nvim .
-        - clear
-  - helm-editor:
-      layout: main-horizontal
-      panes:
-        - helm-editor:
-          - cd ~/Workspace/parallel6/provenance-helm-charts
-          - nvim .
+        - editor: 
+          - clear
         - clear
   - kubectl:
       layout: tiled
