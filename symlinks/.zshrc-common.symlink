@@ -12,7 +12,7 @@ antigen bundle kube-ps1
 antigen bundle terraform
 antigen bundle helm
 antigen bundle git
-antigen bundle vi-mode
+#antigen bundle vi-mode
 antigen bundle gitfast
 antigen bundle bundler
 antigen bundle ruby
@@ -32,7 +32,7 @@ antigen theme junkfood
 antigen apply
 
 # Use 'jf' to change vim modes
-bindkey 'jf' vi-cmd-mode
+#bindkey 'jf' vi-cmd-mode
 # bindkey '^[[A' history-substring-search-up
 # bindkey '^[[B' history-substring-search-down
 # Add mode indicator
