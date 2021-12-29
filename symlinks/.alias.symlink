@@ -107,4 +107,19 @@ grecent() {
   }
 }
 
+ovpn-start(){
+  _ovpn-stop
+  openvpn3 session-start --config $1.ovpn
+}
+
+_ovpn-stop(){
+  sessions=($(openvpn3 sessions-list | grep "Config name:" | sed 's/^.*: //'))
+  for session in $sessions 
+  do
+    echo "Stopping connection with: "$session
+    openvpn3 session-manage -c $session --disconnect
+  done
+  
+}
+
 alias scr="ssh_into_captivereach"
