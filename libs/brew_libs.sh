@@ -70,6 +70,9 @@ brew install stern
 brew install helm
 # Install docker
 brew install docker
+# Instal Postgres client
+brew install libpq
+brew link --force libpq # Since it is  keg-only link needs to be used to add to PATH
 
 #web proxy -----****
 #brew install mitmproxy
