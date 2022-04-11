@@ -16,7 +16,7 @@
 [rerere]
 	enabled = true
 [user]
-	name = Juan Velasquez
+	name = Juan
 	email = velasquezjuan@prahs.com
 	signingKey = ""
 [gpg]
@@ -25,3 +25,10 @@
 	gpgSign = false
 [tag]
 	forceSignAnnotated = false
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[pull]
+	ff = only

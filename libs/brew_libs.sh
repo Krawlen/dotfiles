@@ -21,6 +21,8 @@ fi
 
 brew upgrade
 
+# Library to read Json
+brew install jq
 # MYSQL
 # brew install mysql
 brew install mysql
@@ -60,6 +62,8 @@ brew install kubectx
 
 # Install tfenv
 brew install tfenv
+# Install terraform-docs. Used to generate documentation for terraform modules
+brew install terraform-docs
 # Install Azure CLI
 brew install azure-cli
 # Install AWS CLI
@@ -73,6 +77,7 @@ brew install docker
 # Instal Postgres client
 brew install libpq
 brew link --force libpq # Since it is  keg-only link needs to be used to add to PATH
+
 
 #web proxy -----****
 #brew install mitmproxy
