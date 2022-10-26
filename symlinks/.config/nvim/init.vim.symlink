@@ -275,8 +275,8 @@ nnoremap <Leader>r :VroomRunNearestTest<CR>
 "===============================================================================================
 " Vimux
 " Run last command on vimux
-map <Leader>e :call VimuxRunCommand("clear; spring rspec " . bufname("%") . " --color --format d ")<CR>
-map <Leader>g :VimuxRunLastCommand<CR>
+"map <Leader>e :call VimuxRunCommand("clear; spring rspec " . bufname("%") . " --color --format d ")<CR>
+"map <Leader>g :VimuxRunLastCommand<CR>
 
 
 "===============================================================================================

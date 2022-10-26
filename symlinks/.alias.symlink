@@ -4,20 +4,14 @@ command_exists () {
       type "$1" &> /dev/null ;
 }
 
-alias achef11="ln -sf ~/.chef/knife11.rb ~/.chef/knife.rb"
-alias achef12="ln -sf ~/.chef/knife12.rb ~/.chef/knife.rb"
 alias dl="cd ~/Downloads"
 alias notes="cd ~/Notes/*/notes"
 alias dt="cd ~/Desktop"
 alias ws="cd ~/Workspace"
-alias p6="cd ~/Workspace/parallel6"
-alias cr="cd ~/Workspace/parallel6/captivereach"
 alias localip="ipconfig getifaddr en0"
 alias lror="lsof -wni tcp:3000"
 
 # Devops Alias
-alias cdinfra="cd ~/Workspace/parallel6/provenance-infrastructure"
-alias cdhelm="cd ~/Workspace/parallel6/provenance-helm-charts"
 alias ktx="kubectx"
 alias kns="kubens"
 alias h="helm"
@@ -52,42 +46,14 @@ alias kcr="tmux kill-session -t CRoR"
 alias prune_branches="git branch --merged | grep -v "\*" | xargs -n 1 git branch -d"
 alias local_gemfile="ln -s ~/.development_gemfile Gemfile.local"
 
+# Firstup
+alias start_fe="sc start pony governor mojo advocato patron eva patronus hedwig dojo"
+alias start_studio="sc start bossanova marco hermes athena orare apollo"
+alias stop_fe="sc stop pony governor mojo advocato patron eva patronus hedwig dojo"
+alias stop_studio="sc stop bossanova marco hermes athena orare apollo"
 
-knife_address(){
-  local server=$(knife status | grep "$1.*$2")
-  echo $server
-  local ip=$(echo $server | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
-  echo $ip
-  echo "ssh jvelasquez@$ip" | pbcopy
-}
-
-alias ka="knife_address"
-
-cr_url(){
-  local default_environment="production"
-  local default_number="01"
-  local customer_name=$1
-  local environment=${2-$default_environment}
-  local server_number=${3-$default_number}
-  local server_url="$customer_name-platform-$environment-$server_number.cloud.clinical6.com"
-  echo $server_url | pbcopy
-  echo $server_url
-}
-ssh_into_captivereach(){
-  if [ -n "$TMUX" ]; then
-    ping -c 1 $(cr_url $1 $2 $3)
-    if [ $? -eq 0 ]; then
-      tmux send-keys "ssh jvelasquez@$(cr_url $1 $2 $3)"  \
-        Enter 'PS1="\[\e[38;5;196m\]\H\[\e[0m\] [ \[\e[1;30m\]\d\[\e[0m\] \@ ] \[\e[1;33m\]\w\n\[\e[1;34m\]\u $ \[\033[0m\]"' \
-        Enter 'clear' Enter
-    fi
-  else
-    ssh jvelasquez@$(cr_url $1 $2 $3)
-  fi
-}
-run_chef() {
-  local url=$(cr_url $1 $2 $3)
-  noti ssh jvelasquez@$url sudo chef-client
+rails_debug(){
+  sc exec $1 --tty -c "bundle exec rails s -b 0.0.0.0"
 }
 
 grecent() {
@@ -122,8 +88,6 @@ _ovpn-stop(){
 
 }
 
-alias scr="ssh_into_captivereach"
-
 # https://unix.stackexchange.com/a/112284
 # Reboot directly to Windows
 # Inspired by http://askubuntu.com/questions/18170/how-to-reboot-into-windows-from-ubuntu
@@ -142,8 +106,9 @@ function clipboard() {
   # Usage: someapp | clipboard     # Pipe someapp's output into clipboard
   #        clipboard | someapp     # Pipe clipboard's content into someapp
   #
-
-  if command -v xclip 1>/dev/null; then
+  if [[ $OSTYPE == 'darwin'* ]]; then
+      xargs echo -n | pbcopy
+  elif command -v xclip 1>/dev/null; then
       if [[ -p /dev/stdin ]] ; then
           # stdin is a pipe
           # stdin -> clipboard
@@ -208,4 +173,34 @@ function aws-mfa(){
           source $SESSION_FILE
       fi
   fi
+}
+
+#
+# Change tmux tab/window based on search
+function tgo() {
+  searchArg=$1
+  tabNumber=$(tmux list-windows | grep -m1 $searchArg | sed -e 's/:.*//')
+  tmux select-window -t $tabNumber
+}
+
+function tlist(){
+  tmux list-windows | sed -e 's/.*: \(.*\) ([0-9].*/\1/g'
+}
+
+function rcode(){
+  service=$1
+  if [ $service = "workstation" ]; then
+    code --remote ssh-remote+$EC2_IP_ADDR /opt/socialchorus/workstation
+  else
+    remoteDescription="{\"containerName\": \"/$service\", \"settings\": {\"host\": \"ssh://$EC2_IP_ADDR\"}}" 
+    encodedDescription=$(printf "%s" "$remoteDescription" | xxd -p) 
+
+    code --folder-uri "vscode-remote://attached-container+${encodedDescription//[[:space:]]/}/opt/socialchorus/$service"
+  fi
+}
+
+function scsh(){
+  service=$1
+  sc ec2 connect 
+  sc exec service
 }

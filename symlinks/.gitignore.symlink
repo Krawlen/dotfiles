@@ -23,4 +23,5 @@ tags
 *.code-workspace
 .groovylintrc.json
 .vscode/
+.pryrc
 

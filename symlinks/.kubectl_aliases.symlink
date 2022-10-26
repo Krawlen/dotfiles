@@ -960,3 +960,9 @@ function kcready() {
                 echo -e "$(kubectl describe node $node | grep  "Ready")\n";
         done
 }
+
+# Exec into the console pod directly
+# Usage: kc pony
+function kc() {
+	for i in $(kubectl get pods | grep ${1}-console | awk '{ print $1 }'); do kubectl exec -it $i -- /bin/bash; done
+}

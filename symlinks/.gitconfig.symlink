@@ -17,7 +17,7 @@
 	enabled = true
 [user]
 	name = Juan
-	email = velasquezjuan@prahs.com
+	email = juan.velasquez@firstup.io
 	signingKey = ""
 [gpg]
 	program = gpg
@@ -32,3 +32,5 @@
 	smudge = git-lfs smudge -- %f
 [pull]
 	ff = only
+[init]
+	defaultBranch = main

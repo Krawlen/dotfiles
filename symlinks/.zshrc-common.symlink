@@ -16,7 +16,7 @@ antigen bundle git
 antigen bundle gitfast
 antigen bundle bundler
 antigen bundle ruby
-antigen bundle rails
+#antigen bundle rails
 antigen bundle sudo
 antigen bundle sublime
 antigen bundle command-not-found
@@ -49,7 +49,9 @@ zle -N zle-keymap-select
 # }
 
 # zle -N zle-line-init
-eval `dircolors ~/.dircolors`
+if [[ $OSTYPE != 'darwin'* ]]; then
+  eval `dircolors ~/.dircolors`
+fi
 PROMPT='$(kube_ps1)'$PROMPT
 
 autoload -U compinit && compinit
