@@ -31,7 +31,7 @@ Plugin 'skalnik/vim-vroom' " Run Ruby tests C-r c-R, integrates with vimux
 Plugin 'benmills/vimux' " Add small tmux window below vim, use Vimux functions to open the window
 "Plugin 'Valloric/YouCompleteMe' " Tab to auto complete
 "Plugin 'Shougo/deoplete.nvim' " Autocomplete plugin for NEOVIM
-Plugin 'neoclide/coc.nvim'" # Autocomplete - replaces deoplete
+"Plugin 'neoclide/coc.nvim'" # Autocomplete - replaces deoplete
 Plugin 'ervandew/supertab' " Allow the use of tab for all kinds of autocomplete
 Plugin 'scrooloose/nerdcommenter' " Comment lines using <leader> cc
 Plugin 'scrooloose/nerdtree' " Navigate files
