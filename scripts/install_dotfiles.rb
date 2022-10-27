@@ -1,8 +1,9 @@
 class DotfilesInstaller
   attr_reader :dotfiles_root, :backup_all, :skip_all, :overwrite_all
 
-  def initialize(dotfiles_root)
+  def initialize(dotfiles_root, overwrite_all=false)
     @dotfiles_root = dotfiles_root
+    @overwrite_all = overwrite_all
   end
 
   def link_file(source, destination)
@@ -36,7 +37,9 @@ class DotfilesInstaller
   end
 
   def handle_duplicate(source, destination, destination_file)
-    return :skip if File.readlink(destination) == source
+    puts destination
+    puts source
+    return :skip if File.realpath(destination) == source
     return :overwrite if overwrite_all
     return :skip if skip_all
     return :backup if backup_all
@@ -115,7 +118,7 @@ end
 
 require 'fileutils'
 begin
-  DotfilesInstaller.new(ARGV[0]).perform
+  DotfilesInstaller.new(ARGV[0], ARGV[1]).perform
 rescue StandardError => e
   puts "There was an error"
   puts e.message

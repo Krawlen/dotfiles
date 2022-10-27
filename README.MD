@@ -9,7 +9,7 @@ git submodule update --init --recursive
 ```
 OR
 ```
-git clone --recursive -j8 git://github.com/foo/bar.git
+git clone --recursive -j8 git@github.com:Krawlen/dotfiles.git
 ```
 
 1. Install brew packages
