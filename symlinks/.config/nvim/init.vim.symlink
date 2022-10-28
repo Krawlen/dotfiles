@@ -39,7 +39,7 @@ Plugin 'Xuyuanp/nerdtree-git-plugin' " Add git indicators to NerdTree
 "Plugin 'justinmk/vim-sneak' " Jump between lines faster. Use s to start search
 Plugin 'mileszs/ack.vim' " Search text in files
 Plugin 'skwp/greplace.vim' " Search and replace on multiple files
-Plugin 'SirVer/ultisnips' " Allow for snippets
+"Plugin 'SirVer/ultisnips' " Allow for snippets
 Plugin 'honza/vim-snippets' " Snippets to use with the ultisnipts
 "Plugin 'fishbullet/deoplete-ruby' " Autocomplete for Ruby
 Plugin 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] } " Linter and code analysis for JS
@@ -448,9 +448,9 @@ let g:SuperTabDefaultCompletionType = "<c-n>"
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 "===============================================================================================
 " UltiSnips
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-v>"
+"let g:UltiSnipsExpandTrigger="<c-j>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-v>"
 
 "===============================================================================================
 " Neomake
