@@ -7,7 +7,7 @@ command_exists () {
 alias dl="cd ~/Downloads"
 alias notes="cd ~/Notes/*/notes"
 alias dt="cd ~/Desktop"
-alias ws="cd ~/Workspace"
+alias cdws="cd ~/Workspace"
 alias localip="ipconfig getifaddr en0"
 alias lror="lsof -wni tcp:3000"
 
@@ -51,6 +51,7 @@ alias start_fe="sc start pony governor mojo advocato patron eva patronus hedwig 
 alias start_studio="sc start bossanova marco hermes athena orare apollo"
 alias stop_fe="sc stop pony governor mojo advocato patron eva patronus hedwig dojo"
 alias stop_studio="sc stop bossanova marco hermes athena orare apollo"
+alias ror="bundle exec rails s -b 0.0.0.0"
 
 rails_debug(){
   sc exec $1 --tty -c "bundle exec rails s -b 0.0.0.0"
@@ -189,18 +190,44 @@ function tlist(){
 
 function rcode(){
   service=$1
-  if [ $service = "workstation" ]; then
-    code --remote ssh-remote+$EC2_IP_ADDR /opt/socialchorus/workstation
-  else
-    remoteDescription="{\"containerName\": \"/$service\", \"settings\": {\"host\": \"ssh://$EC2_IP_ADDR\"}}" 
-    encodedDescription=$(printf "%s" "$remoteDescription" | xxd -p) 
+  serviceList=($(scServiceList))
+
+  if [[ " ${array[*]} " =~ " ${service} " ]]; then
+    remoteDescription="{\"containerName\": \"/$service\", \"settings\": {\"host\": \"ssh://$EC2_IP_ADDR\"}}"
+    encodedDescription=$(printf "%s" "$remoteDescription" | xxd -p)
 
     code --folder-uri "vscode-remote://attached-container+${encodedDescription//[[:space:]]/}/opt/socialchorus/$service"
+  elif [ $service = "dotfiles" ]; then
+    code --remote ssh-remote+$EC2_IP_ADDR /home/ec2-user/dotfiles
+  else
+    code --remote ssh-remote+$EC2_IP_ADDR /home/ec2-user/firstup/$service
   fi
 }
 
-function scsh(){
+function scServiceList(){
+  ls /opt/socialchorus/workstation/services/configurations/ | sed 's/.yml//'
+}
+
+function sce(){
+  sc exec $1 --tty -c "zsh"
+}
+
+function ec2sh(){
   service=$1
-  sc ec2 connect 
+  sc ec2 connect
   sc exec service
+}
+function generateFixtures(){
+  initialDir=$(pwd)
+  cd /home/ec2-user/firstup/integration-tests-firstup
+  bundle exec ruby ./fixtures/experience.rb local
+  ws env integration-tests-firstup -f
+  cd $initialDir
+}
+
+function restartAllServices(){
+  list1=$(scServiceList)
+  list2=$(docker stats --format "{{.Name}}" --no-stream)
+  servicesToRestart=$(sort <(echo $list1 | sort -u) <(echo $list2 | sort -u) | uniq -d | xargs echo)
+  ws restart $servicesToRestart
 }

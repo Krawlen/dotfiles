@@ -1,1 +1,11 @@
 # vim: filetype=yaml
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+Metrics/AbcSize:
+  Exclude:
+    - 'spec/**/*'
+Layout/LineLength:
+  Enabled: false
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: false
