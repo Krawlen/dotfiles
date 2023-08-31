@@ -14,7 +14,7 @@ antigen bundle helm
 antigen bundle git
 #antigen bundle vi-mode
 antigen bundle gitfast
-antigen bundle bundler
+#antigen bundle bundler
 antigen bundle ruby
 #antigen bundle rails
 antigen bundle sudo
