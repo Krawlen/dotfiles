@@ -189,13 +189,42 @@ function tlist(){
 }
 
 function rcode(){
-  service=$1
   serviceList=($(scServiceList))
 
-  if [[ " ${array[*]} " =~ " ${service} " ]]; then
+  local tmp devMode=false
+  tmp=$(getopt -o 'd' -n "$FUNCNAME" -- "$@")
+
+  local rc=$?
+  ((rc == 0)) || return $rc
+
+  eval set -- "$tmp"
+
+  while true; do
+      case "$1" in
+          '-d') devMode=true
+                shift
+                ;;
+          '--') shift
+                break
+                ;;
+          *)    echo Internal Error >&2
+                return 1
+                ;;
+      esac
+  done
+
+  service=$1
+  echo $service
+  echo $devMode
+
+  if [ $service = "workstation" ]; then
+    code --remote ssh-remote+$EC2_IP_ADDR /home/ec2-user/firstup/$service
+  # If the param is a service
+  elif [[ " ${serviceList[*]} " =~ " ${service} " && $devMode = true ]]; then
+    echo "starting $service in dev mode"
     remoteDescription="{\"containerName\": \"/$service\", \"settings\": {\"host\": \"ssh://$EC2_IP_ADDR\"}}"
     encodedDescription=$(printf "%s" "$remoteDescription" | xxd -p)
-
+    runInEc2 restartInDevMode $service
     code --folder-uri "vscode-remote://attached-container+${encodedDescription//[[:space:]]/}/opt/socialchorus/$service"
   elif [ $service = "dotfiles" ]; then
     code --remote ssh-remote+$EC2_IP_ADDR /home/ec2-user/dotfiles
@@ -206,6 +235,25 @@ function rcode(){
 
 function scServiceList(){
   ls /opt/socialchorus/workstation/services/configurations/ | sed 's/.yml//'
+}
+
+function startService(){
+  service=$1
+
+  ssh -t $EC2_IP_ADDR "ws start $service"; noti -t "Service $service is running"
+
+}
+
+function stopService(){
+  service=$1
+
+  ssh -t $EC2_IP_ADDR "ws start $service"; noti -t "Service $service is running"
+}
+
+function runInEc2(){
+  command=$1
+  timeout 20 ssh -tt $EC2_IP_ADDR $command
+  noti -t "$command exited with $?"
 }
 
 function sce(){
