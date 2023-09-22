@@ -250,10 +250,20 @@ function stopService(){
   ssh -t $EC2_IP_ADDR "ws start $service"; noti -t "Service $service is running"
 }
 
+function wsWrapper(){
+  command=$1
+  expect -c "spawn $command; expect \"SSO credentials were not set or were expired. Please log in now.\" { exit 1 }"
+  noti -t "$command exited with $?"
+}
+
 function runInEc2(){
   command=$1
   timeout 20 ssh -tt $EC2_IP_ADDR $command
   noti -t "$command exited with $?"
+}
+
+function sso(){
+  aws sso login
 }
 
 function sce(){

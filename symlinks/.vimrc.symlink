@@ -164,7 +164,7 @@ set shiftwidth=2
 
 syntax on
 " Colorscheme
-colorscheme Tomorrow-Night-Eighties
+" colorscheme Tomorrow-Night-Eighties
 " Copy into OS clipboard
 " nmap <C-c> "*y
 set clipboard=unnamed
