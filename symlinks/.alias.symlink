@@ -270,6 +270,33 @@ function sce(){
   sc exec $1 --tty -c "zsh"
 }
 
+function runningInDev(){
+  service=$1
+  output=$(docker container inspect "$service" 2>/dev/null | jq '.[0].Config.Image' ) || output="invalid"
+  expected="socialchorus/station:local"
+  if [[ "$output" == "$expected" ]]; then
+    return true
+  else
+    return false
+  fi
+}
+
+function restartInDev(){
+  if runningInDev $1; then
+    echo "Service $1 is already running in devMode"
+  else
+    ws restart $1 --dev
+  fi
+}
+
+function restartInLite(){
+  if runningInDev $1; then
+    ws restart $1
+  else
+    echo "Service $1 is already running in lite mode"
+  fi
+}
+
 function ec2sh(){
   service=$1
   sc ec2 connect
