@@ -56,3 +56,6 @@ PROMPT='$(kube_ps1)'$PROMPT
 
 autoload -U compinit && compinit
 
+export PATH=$HOME/bin:$PATH
+export PATH=/usr/local/bin:$PATH
+

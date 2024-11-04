@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+set -e -o pipefail
+
+  ##################################################
+  # Helps installing gems through bundler
+  ##################################################
+  function bundleRuby() {
+    APP_BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")
+    if [ -z "$APP_BUNDLER_VERSION" ]; then
+      echo "- Could not find bundler version from Gemfile.lock. Please use bundler-version parameter"
+    else
+      echo "- Gemfile.lock is bundled with bundler version $APP_BUNDLER_VERSION"
+    fi
+
+    if ! echo $(bundle version)  | grep -q $APP_BUNDLER_VERSION; then
+      echo "- Installing bundler $APP_BUNDLER_VERSION"
+        gem install bundler:$APP_BUNDLER_VERSION --no-document
+    else
+      echo "- Bundler $APP_BUNDLER_VERSION is already installed."
+    fi
+    echo ""
+    bundle check || bundle install
+  }
+
+  function bundleNodeYarn() {
+    # Make sure nvm is available
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+    echo -ne "- Checking yarn dependencies "
+      nvm exec yarn install > /dev/null
+  }
+
+  function bundleNode() {
+    # Make sure nvm is available
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+    echo -ne "- Checking npm dependencies "
+      nvm exec npm install > /dev/null
+  }
+
+  function bundleTypescript() {
+    # Make sure nvm is available
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+    echo -ne "- Installing typescript "
+      nvm exec npm install -g typescript > /dev/null
+  }
+
+  function bundleGo() {
+    make bundle
+  }
+
+  function main() {
+    if [[ -f "yarn.lock" ]]; then
+      echo "- Found yarn.lock in ${WORKING_DIR}"
+      bundleNodeYarn
+    fi
+
+    if [[ -f "package-lock.json" ]]; then
+      echo "- Found package-lock.json in ${WORKING_DIR}"
+      bundleNode
+    fi
+
+    if [[ -f "tsconfig.json" ]]; then
+      echo "- Found tsconfig.json in ${WORKING_DIR}"
+      bundleTypescript
+    fi
+
+    if [[ -f "Gemfile.lock" ]]; then
+      echo "- Found Gemfile.lock in ${WORKING_DIR}"
+      bundleRuby
+    fi
+
+    if [[ -f "go.sum" ]]; then
+      echo "- Found go.sum in ${WORKING_DIR}"
+      bundleGo
+    fi
+  }
+
+  main

@@ -234,7 +234,7 @@ function rcode(){
 }
 
 function scServiceList(){
-  ls /opt/socialchorus/workstation/services/configurations/ | sed 's/.yml//'
+  ls /opt/socialchorus/workstation/services/pm2 | sed 's/.yml//' | grep 'debug|workers' -vE
 }
 
 function startService(){
@@ -270,27 +270,40 @@ function sce(){
   sc exec $1 --tty -c "zsh"
 }
 
+function running(){
+  service=$1
+  output=$(docker container inspect "$service" 2>/dev/null | jq -r '.[0].Config.Image' ) || output="invalid"
+  if [[ "$output" = "invalid" ]]; then
+    echo no
+  else
+    echo yes
+  fi
+}
+
 function runningInDev(){
   service=$1
-  output=$(docker container inspect "$service" 2>/dev/null | jq '.[0].Config.Image' ) || output="invalid"
+  output=$(docker container inspect "$service" 2>/dev/null | jq -r '.[0].Config.Image' ) || output="invalid"
   expected="socialchorus/station:local"
-  if [[ "$output" == "$expected" ]]; then
-    return true
+  if [[ "$output" = "$expected" ]]; then
+    echo yes
   else
-    return false
+    echo no
   fi
 }
 
-function restartInDev(){
-  if runningInDev $1; then
-    echo "Service $1 is already running in devMode"
+function restartInDev() {
+  service=$1
+  if [ "$(runningInDev "$service")" = "yes" ]; then
+    echo "Service $service is already running in devMode"
   else
-    ws restart $1 --dev
+    ws restart "$service" --dev
+    echo "Restarting service $service in devMode"
   fi
 }
+
 
 function restartInLite(){
-  if runningInDev $1; then
+  if [ "$(runningInDev "$service")" = "yes" ]; then
     ws restart $1
   else
     echo "Service $1 is already running in lite mode"
@@ -315,4 +328,68 @@ function restartAllServices(){
   list2=$(docker stats --format "{{.Name}}" --no-stream)
   servicesToRestart=$(sort <(echo $list1 | sort -u) <(echo $list2 | sort -u) | uniq -d | xargs echo)
   ws restart $servicesToRestart
+}
+
+
+function back-merge(){
+
+  # Request user input for repo names, target branch, and source branch
+  echo "Enter the repo name"
+  read REPO_NAME
+  echo "Enter the target branch: "
+  read target_branch
+  echo "Enter the source branch: "
+  read source_branch
+
+  continue=false
+
+  for arg in "$@"
+  do
+      if [[ $arg == "--continue" ]]
+      then
+          echo "Argument --continue found"
+          continue=true
+      fi
+  done
+
+
+
+  # Change directory to the repository folder
+  cd "/opt/socialchorus/${REPO_NAME}"
+
+  if [ "$continue" != true ]
+  then
+    # Pull the latest changes for source and target branches
+    git checkout "${source_branch}"
+    git pull
+
+    git checkout "${target_branch}"
+    git pull
+
+
+    # Merge source into target with commit message
+    if git merge "${source_branch}" -m "Back-merge ${source_branch} into ${target_branch}" | grep -q 'CONFLICT'; then
+        echo "Merge has conflicts"
+        return 1
+    else
+        echo "Merge does not have conflicts"
+    fi
+  fi
+
+
+  # Create a temporary branch out of the target
+  TEMP_BRANCH="back-merge-$(date +%s)"
+  git checkout -b "${TEMP_BRANCH}"
+
+  # Push the temporary branch
+  git push origin "${TEMP_BRANCH}"
+
+  # Output the PR link
+  echo "PR link for ${REPO_NAME}: https://github.com/socialchorus/${REPO_NAME}/compare/${TEMP_BRANCH}?expand=1"
+  open "https://github.com/socialchorus/${REPO_NAME}/compare/${TEMP_BRANCH}?expand=1"
+
+  # Clean up
+  git checkout "${target_branch}"
+  git reset --hard origin/"${target_branch}"
+  git branch -D "${TEMP_BRANCH}"
 }

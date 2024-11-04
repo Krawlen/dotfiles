@@ -1,0 +1,371 @@
+#!/bin/bash
+# Identifier Header, do not remove: Workstation Forwarder V2
+
+# ANSI color definitions
+yellow='\033[1;33m'
+blue='\033[1;34m'
+light_black='\033[1;30m'
+red='\033[1;31m'
+light_blue='\033[1;36m'
+green='\033[1;32m'
+nc='\033[0m'
+
+aws_region=us-east-1
+aws_account_id=644921559645
+aws_profile=${AWS_PROFILE:-default}
+ecr_repo=${aws_account_id}.dkr.ecr.${aws_region}.amazonaws.com
+workstation_image_tag=${WORKSTATION_IMAGE_TAG:-latest-lean}
+workstation_latest_image="${ecr_repo}/workstation:${workstation_image_tag}"
+workstation_latest_service_image="${ecr_repo}/workstation:latest"
+workstation_image="${WORKSTATION_IMAGE:-${workstation_latest_image}}"
+amazonlinux_2023_image="${ecr_repo}/workstation:task_amazonlinux-2023-full-2023"
+workstation_container_name='workstation-lean'
+log_file='/tmp/workstation.log'
+local_workstation_dir="${WORKSTATION_DIR:-${HOME}/firstup/workstation}"
+
+function container_not_running() {
+  grep -q "No such container: ${workstation_container_name}" "${log_file}"
+}
+
+function run_container() {
+  echo -e "\n${light_blue}${workstation_container_name} not running. Attempting to start now...${nc}"
+  if ! docker network ls | grep socialchorus > /dev/null 2>&1; then
+    echo -e "Docker 'socialchorus' network does not exist, creating... ${light_black}(running \`docker network create socialchorus\`)${nc}\n"
+    docker network create socialchorus
+  else
+    echo "Docker 'socialchorus' network exists"
+  fi
+
+  if ! docker volume ls | grep gem_cache > /dev/null 2>&1; then
+    echo "Docker 'gem_cache' volume does not exist, creating... ${light_black}(running \`docker volume create gem_cache\`)${nc}\n"
+    docker volume create gem_cache
+  else
+    echo "Docker 'gem_cache' volume exists"
+  fi
+
+  if ! docker volume ls | grep bundle_cache > /dev/null 2>&1; then
+    echo -e "Docker 'bundle_cache' volume does not exist, creating... ${light_black}(running \`docker volume create bundle_cache\`)${nc}\n"
+    docker volume create bundle_cache
+  else
+    echo "Docker 'bundle_cache' volume exists"
+  fi
+
+  # Calculate HOST_OS
+  case "$(uname -s)" in
+      Linux*)     host_os="linux";;
+      Darwin*)    host_os="macos";;
+      CYGWIN*|MINGW*|MSYS*) host_os="windows";;
+      *)
+        echo -e "\n\n${red}Could not determine HOST_OS to run workstation. Unsupported operating system: $(uname -s)${nc}\n\n"
+        exit 1
+        ;;
+  esac
+
+  # Calculate IS_ARM
+  case "$(uname -m)" in
+    x86_64) IS_ARM="false";;
+    arm*)   IS_ARM="true";;
+    aarch64) IS_ARM="true";;
+    *)
+      echo -e "\n\n${red}Could not determine whether host OS is ARM architecture or not. Unsupported architecture: $(uname -m)${nc}\n\n"
+      exit 1
+      ;;
+  esac
+
+  workstation_image_tag=${WORKSTATION_IMAGE_TAG:-latest}
+
+  echo ""
+  echo "Creating ${workstation_container_name} container..."
+  echo -e "with name: \t${workstation_container_name}"
+  echo -e "from workstation_image: \t${workstation_image}"
+  echo -e "on host OS: \t${host_os}"
+  echo -e "IS_ARM: \t${IS_ARM}"
+  echo ""
+
+  user_info="$(id -u):$(id -g)"
+
+  # TODO: FE-8569 - Adjust this and the Dockerfile to use a common location for the workstation gems.
+  mounted_volumes=(
+    "-v=/opt/socialchorus/workstation/services/.socialchorus:/root/.socialchorus:ro"
+    "-v=bundle_cache:/opt/socialchorus/workstation/vendor/bundle"
+    "-v=gem_cache:/opt/gem_cache"
+    "-v=/var/run/docker.sock:/var/run/docker.sock"
+    "-v=/opt/socialchorus:/opt/socialchorus"
+    "-v=${HOME}/.aws:/root/.aws"
+  )
+
+  if [[ -f "/opt/socialchorus/workstation/flags.yml" ]]; then
+      mounted_volumes+=("-v=/opt/socialchorus/workstation/flags.yml:/opt/workstation/flags.yml:ro")
+  fi
+
+
+  # TODO: FE-8569 - Same as above TODO; this is all just a hack to avoid overwriting the vendor/bundle directory.
+  if [[ -f "${HOME}/.workstation/mounts/workstation" ]]; then
+    echo -e "\n${blue}Using development workstation mount${nc}\n"
+    # Mount all directories in the workstation directory except vendor; including vendor causes various issues with properly finding gems
+    for dir in $(find /opt/socialchorus/workstation/ -mindepth 1 -maxdepth 1 -type d | sed 's/\.\///g' | grep -v vendor | sort -u); do
+      mounted_volumes+=("-v=/opt/socialchorus/workstation/$(basename "$dir"):/opt/workstation/$(basename "$dir")")
+    done
+  fi
+
+  docker run -d --name "${workstation_container_name}" \
+    --restart=always \
+    -e NAMESPACE=local \
+    -e WORKING_DIR=/opt/workstation \
+    -e IS_ARM=${IS_ARM} \
+    -e USER_INFO="${user_info}" \
+    -e HOST_OS=${host_os} \
+    -e HOST_HOME=${HOME} \
+    -e WORKSTATION_IMAGE_TAG=${workstation_image_tag} \
+    --workdir /opt/workstation \
+    --network=socialchorus \
+    "${mounted_volumes[@]}" \
+    --tmpfs /tmp \
+    "${workstation_image}" 2>&1 | tee "${log_file}"
+
+    if [[ ${PIPESTATUS[0]} -eq 0 ]]; then
+      docker exec -it ${workstation_container_name} bash -c "echo https://${GITHUB_TOKEN}:x-oauth-basic@github.com > ~/.git-credentials"
+      echo -e "\n${green}🎉 Workstation is running!${nc}"
+    fi
+}
+
+function docker_requires_login() {
+  grep -q "no basic auth credentials" "${log_file}" || grep -q "Your authorization token has expired" "${log_file}" || grep -q "403 Forbidden" "${log_file}"
+}
+
+function require_workstation_update() {
+  grep -q "forwarder_callback::update_workstation" "${log_file}"
+}
+
+function require_workstation_service_image_update() {
+  grep -q "forwarder_callback::pull_service_image" "${log_file}"
+}
+
+function get_install_script_source() {
+  if [[ "${INSTALL_WORKSTATION_FORWARDER_FROM_LOCAL}" == "true" ]]; then
+    cat "${local_workstation_dir}/bin/install_workstation.sh"
+  else
+    curl -sSL -H "Authorization: token ${GITHUB_TOKEN}" "https://raw.githubusercontent.com/socialchorus/workstation/master/bin/install_workstation.sh"
+  fi
+}
+
+# Updates both the forwarder script and the workstation docker workstation_image
+function update_workstation() {
+  echo -e "\n${light_blue}Forwarder script requires an update. Attempting to update now...${nc}"
+  get_install_script_source | INSTALL_WORKSTATION_FORWARDER_FROM_LOCAL=${INSTALL_WORKSTATION_FORWARDER_FROM_LOCAL:-false} bash
+  
+  # Pull workstation image
+  echo -e "\n${light_blue}Pulling latest ${workstation_container_name} docker workstation_image...${nc}"
+  docker pull "${workstation_image}" 2>&1 | tee "${log_file}"
+  workstation_image_pull_success=${PIPESTATUS[0]}
+
+  # TODO: FE-11960 - This is a hack so that workstation doesn't fail when this image doesn't exist locally.
+  #  This specific logic for amazonlinux_2023_image should be replaced by the new mechanism in the ticket
+  #  listed above, once it is built.
+  docker pull "${amazonlinux_2023_image}" 2>&1 | tee "${log_file}"
+  amazonlinux_image_pull_success=${PIPESTATUS[0]}
+
+  if [[ "${workstation_image_pull_success}" == "0" ]] && [[ "${amazonlinux_image_pull_success}" == "0" ]]; then
+    echo -e "\n${green}Successfully pulled latest workstation image and amazonlinux_2023 image.${nc}"
+  elif docker_requires_login; then
+    login_to_ecr
+    if ! docker pull "${workstation_image}"; then
+      echo -e "\n${red}Failed to pull latest workstation image after logging in to ECR.${nc}"
+      echo -e "Please check the logs for more information: ${log_file}"
+      exit 1
+    fi
+    if ! docker pull "${amazonlinux_2023_image}"; then
+      echo -e "\n${red}Failed to pull latest ${amazonlinux_2023_image} after logging in to ECR.${nc}"
+      echo -e "Please check the logs for more information: ${log_file}"
+      exit 1
+    fi
+  else
+    echo -e "\n${red}Failed to pull latest workstation image.${nc}"
+    echo -e "Please check the logs for more information: ${log_file}"
+    exit 1
+  fi
+  
+  run_container
+}
+
+# Update the workstation service image, which is the _old_ workstation image that all services currently rely on to execute in a container.
+# This is NOT the workstation lean image which is what the v2 forwarder uses to run workstation itself. Naming things is hard.
+function update_workstation_service_image() {
+  echo -e "\n${light_blue}Pulling latest workstation service image (the image all our services run on)${nc}"
+  docker pull "${workstation_latest_service_image}" 2>&1 | tee "${log_file}"
+  docker_pull_success=${PIPESTATUS[0]}
+  if [[ "${docker_pull_success}" == "0" ]]; then
+    echo -e "\n${green}Successfully pulled latest workstation service image.${nc}"
+  elif docker_requires_login; then
+    login_to_ecr
+    if ! docker pull "${workstation_latest_service_image}"; then
+      echo -e "\n${red}Failed to pull latest workstation service image after logging in to ECR.${nc}"
+      echo -e "Please check the logs for more information: ${log_file}"
+      exit 1
+    fi
+  else
+    echo -e "\n${red}Failed to pull latest workstation service image.${nc}"
+    echo -e "Please check the logs for more information: ${log_file}"
+    exit 1
+  fi
+}
+
+
+function stop_workstation() {
+  if docker ps | awk '{ print $NF }' | grep -q workstation; then
+    for container_name in $(docker ps | awk '{ print $NF }' | grep workstation); do
+      echo -e "Stopping and removing ${container_name} container"
+      docker stop "${container_name}" >> "${log_file}"
+      docker rm "${container_name}" >> "${log_file}"
+    done
+  fi
+  echo -e "\n${green}Workstation stopped.${nc}\n"
+}
+
+function restart_workstation() {
+  stop_workstation
+  run_container
+}
+
+function handle_container_commands() {
+  if [[ "${workstation_args[0]}" == "stop" && "${workstation_args[1]}" == "workstation" ]]; then
+    stop_workstation
+    exit 0
+  fi
+
+  if [[ "${workstation_args[0]}" == "restart" && "${workstation_args[1]}" == "workstation" ]]; then
+    restart_workstation
+    exit 0
+  fi
+
+  if [[ "${workstation_args[0]}" == "update" ]]; then
+    update_workstation
+    exit 0
+  fi
+}
+
+function aws_requires_login() {
+  grep -q "forwarder_callback::aws_login" "${log_file}"
+}
+
+function login_to_aws_sso() {
+  echo -e "\nAttempting SSO login with ${aws_profile} profile..."
+  echo -e "${nc}Running: \`${blue}aws sso login --profile \"${aws_profile}\" ${nc}\`"
+  aws sso login --profile "${aws_profile}"
+
+  ws_arg_string=$(IFS=" "; echo "${workstation_args[*]}") # Join the array into a single string
+  # If the user passed a "-f" or "--force" flag to the aws command, remove it because we just logged in otherwise, the command will loop forever.
+  if echo "$ws_arg_string" | grep "aws" | grep -q '\-f' || echo "$ws_arg_string" | grep "aws" | grep -q '\-\-force'; then
+      ws_arg_string=$(echo "$ws_arg_string" | sed -e 's/ -f//g' -e 's/--force//g')
+      # Update the workstation_args array to reflect the changes
+      IFS=' ' read -r -a workstation_args <<< "$ws_arg_string"
+      echo -e "\n${light_black}Removed -f or --force flag from aws command to prevent infinite loop.${nc}"
+  fi
+}
+
+function login_to_ecr() {
+  echo -e "\nDocker pull failed due to no auth credentials. Attempting to login to AWS ECR..."
+  # Check AWS SSO token and attempt to login if not using the Workstation profile
+  if ! aws sts get-caller-identity --query "Arn" | grep -q "_Workstation_"; then
+    login_to_aws_sso
+  fi
+
+  echo -e "${nc}Running: \`${blue}aws ecr get-login-password --profile ${aws_profile} --region ${aws_region} | docker login --username AWS --password-stdin ${ecr_repo}${nc}\`"
+  aws ecr get-login-password --profile "${aws_profile}" --region "${aws_region}" | docker login --username AWS --password-stdin "${ecr_repo}"
+}
+
+function execute_workstation_command() {
+  handle_container_commands
+
+  env_vars="FORWARDER_VERSION=2 GITHUB_TOKEN=${GITHUB_TOKEN} GITHUB_DEFAULT_BRANCH=${GITHUB_DEFAULT_BRANCH} HOST_COLS=$(tput cols) HOST_LINES=$(tput lines)"
+  if [[ "${CI}" == "true" ]]; then
+    env_vars+=" CI=true"
+    env_vars+=" SKIP_AWS_TOKEN_REFRESH_PROMPT=true"
+  else
+    # If SKIP_AWS_TOKEN_REFRESH_PROMPT is not set, default to false
+    env_vars+=" SKIP_AWS_TOKEN_REFRESH_PROMPT=${SKIP_AWS_TOKEN_REFRESH_PROMPT:-false}"
+  fi
+  # This setup looks slightly confusing but it allows us to capture output from the docker command and pass to a tmp log file,
+  # even if the docker command doesn't exist. This enables robust error handling by grepping the log file for the error message.
+  docker exec -it ${workstation_container_name} bash -c "${env_vars} ./bin/ws ${workstation_args[*]}" 2>&1 | tee "${log_file}"
+
+  exec_status=${PIPESTATUS[0]}
+  return "${exec_status}"
+}
+
+function has_any_callbacks() {
+  grep -q "forwarder_callback" "${log_file}"
+}
+
+# This function runs any initial checks that need to be done before attempting to run the workstation command
+# These checks need to be VERY fast in order to prevent adding artificial latency to the `ws` commands.
+# Ideally they will take "no" time at all, for example: time command -v docker shows a runtime of 0.000s.
+function initial_checks() {
+  # Ensure Docker is installed
+  if ! command -v docker &>/dev/null; then
+    echo -e "\n${yellow}Docker is not installed on your system."
+    case "$(uname -s)" in
+      Linux*)     echo "Install Docker for Linux by following these instructions: https://docs.docker.com/desktop/install/linux-install/";;
+      Darwin*)    echo "Install Docker for MacOS by following these instructions: https://docs.docker.com/desktop/install/mac-install/";;
+      CYGWIN*|MINGW*|MSYS*) echo "Install Docker for Windows by following these instructions: https://docs.docker.com/desktop/install/windows-install/";;
+      *)
+        echo "Find your instructions here: https://docs.docker.com/desktop/"
+        ;;
+    esac
+    echo -e "${nc}"
+    exit 1
+  fi
+
+  # If Docker Desktop is running with virtiofs enabled, we need to ensure the proper directories are shared
+  if ps auwwx | grep 'virtiofs' | grep -v grep > /dev/null 2>&1; then
+    # CI will not have proper docker settings, but for smoke tests, this is okay for now.
+    if ! ps auwwx | grep 'virtiofs' | grep '/opt' | grep -q '/tmp' && [[ "${CI}" != "true" ]]; then
+      echo -e "\n⛔️ ${red}Missing key virtiofs settings${nc}\n"
+      echo -e "Open your Docker Desktop application, go to '${yellow}Settings > Resources > File sharing${nc}' and add the follow virtual file shares:"
+      echo -e "- ${yellow}/opt${nc}"
+      echo -e "- ${yellow}/tmp${nc}\n"
+      exit 1
+    fi
+  fi
+
+  # Ensure AWS CLI is installed
+  if ! command -v aws &>/dev/null; then
+    echo -e "\n${yellow}AWS CLI is not installed on your system."
+    echo -e "Install AWS CLI by following these instructions: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html"
+    echo -e "${nc}"
+    exit 1
+  fi
+}
+
+initial_checks
+
+# Passing $@ directly to the docker exec command seems to make shellcheck unhappy, and ChatGPT agrees it's a bad idea
+# due to possible bugs with white-spaces in the arguments. So this allows us to pass arguments to the workstation script
+# without any issues.
+workstation_args=("$@")
+if ! execute_workstation_command; then
+  if container_not_running; then
+    run_container
+    if docker_requires_login; then
+      login_to_ecr
+      run_container
+    fi
+    execute_workstation_command
+  fi
+fi
+
+while has_any_callbacks; do
+  if aws_requires_login; then
+    login_to_aws_sso
+    execute_workstation_command
+  fi
+
+  if require_workstation_update; then
+    update_workstation
+  fi
+
+  if require_workstation_service_image_update; then
+    update_workstation_service_image
+    execute_workstation_command
+  fi
+done
