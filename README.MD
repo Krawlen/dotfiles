@@ -12,8 +12,9 @@ OR
 git clone --recursive -j8 git@github.com:Krawlen/dotfiles.git
 ```
 
-1. Install brew packages
+1. Install brew packages ./libs/brew_libs.sh
 2. Install NeoVim ( Note: Installing RVM, nodenv, pyenv may require logout)
+3. Install vim plugins-> Start nvim and run :PluginInstall
 2. Install all OS specific apps/libs ( See files under ./os/)
 3. Run `./bootstrap.sh`
 
@@ -21,5 +22,5 @@ git clone --recursive -j8 git@github.com:Krawlen/dotfiles.git
 ## Common Errors
 1. NeoVim errors with coc. -> cd ~/.vim/bundle/coc.nvim and change branch to release
 2. antigen not loading plugins correctly -> Change order of zshrc to move source zshrc-common to the end
-
+3. Failure loading helm completions -> mkdir /Users/juan/.antigen/bundles/robbyrussell/oh-my-zsh/cache/completions
 
