@@ -18,7 +18,6 @@ workstation_image_tag=${WORKSTATION_IMAGE_TAG:-latest-lean}
 workstation_latest_image="${ecr_repo}/workstation:${workstation_image_tag}"
 workstation_latest_service_image="${ecr_repo}/workstation:latest"
 workstation_image="${WORKSTATION_IMAGE:-${workstation_latest_image}}"
-amazonlinux_2023_image="${ecr_repo}/workstation:task_amazonlinux-2023-full-2023"
 workstation_container_name='workstation-lean'
 log_file='/tmp/workstation.log'
 local_workstation_dir="${WORKSTATION_DIR:-${HOME}/firstup/workstation}"
@@ -159,23 +158,12 @@ function update_workstation() {
   docker pull "${workstation_image}" 2>&1 | tee "${log_file}"
   workstation_image_pull_success=${PIPESTATUS[0]}
 
-  # TODO: FE-11960 - This is a hack so that workstation doesn't fail when this image doesn't exist locally.
-  #  This specific logic for amazonlinux_2023_image should be replaced by the new mechanism in the ticket
-  #  listed above, once it is built.
-  docker pull "${amazonlinux_2023_image}" 2>&1 | tee "${log_file}"
-  amazonlinux_image_pull_success=${PIPESTATUS[0]}
-
-  if [[ "${workstation_image_pull_success}" == "0" ]] && [[ "${amazonlinux_image_pull_success}" == "0" ]]; then
-    echo -e "\n${green}Successfully pulled latest workstation image and amazonlinux_2023 image.${nc}"
+  if [[ "${workstation_image_pull_success}" == "0" ]]; then
+    echo -e "\n${green}Successfully pulled latest workstation image.${nc}"
   elif docker_requires_login; then
     login_to_ecr
     if ! docker pull "${workstation_image}"; then
       echo -e "\n${red}Failed to pull latest workstation image after logging in to ECR.${nc}"
-      echo -e "Please check the logs for more information: ${log_file}"
-      exit 1
-    fi
-    if ! docker pull "${amazonlinux_2023_image}"; then
-      echo -e "\n${red}Failed to pull latest ${amazonlinux_2023_image} after logging in to ECR.${nc}"
       echo -e "Please check the logs for more information: ${log_file}"
       exit 1
     fi

@@ -1,9 +1,28 @@
 class DotfilesInstaller
   attr_reader :dotfiles_root, :backup_all, :skip_all, :overwrite_all
 
-  def initialize(dotfiles_root, overwrite_all=false)
+  def initialize(dotfiles_root, duplicate_strategy=nil)
     @dotfiles_root = dotfiles_root
-    @overwrite_all = overwrite_all
+    
+    # Handle different duplicate strategies
+    case duplicate_strategy
+    when 'skip_all', 'skip'
+      @skip_all = true
+      @overwrite_all = false
+      @backup_all = false
+    when 'overwrite_all', 'overwrite', true  # Keep backward compatibility with boolean true
+      @overwrite_all = true
+      @skip_all = false
+      @backup_all = false
+    when 'backup_all', 'backup'
+      @backup_all = true
+      @skip_all = false
+      @overwrite_all = false
+    else
+      @overwrite_all = false
+      @skip_all = false
+      @backup_all = false
+    end
   end
 
   def link_file(source, destination)

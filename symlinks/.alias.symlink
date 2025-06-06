@@ -191,45 +191,44 @@ function tlist(){
 function rcode(){
   serviceList=($(scServiceList))
 
-  local tmp devMode=false
-  tmp=$(getopt -o 'd' -n "$FUNCNAME" -- "$@")
+  local devMode=false
+  local service=""
 
-  local rc=$?
-  ((rc == 0)) || return $rc
-
-  eval set -- "$tmp"
-
-  while true; do
-      case "$1" in
-          '-d') devMode=true
-                shift
-                ;;
-          '--') shift
-                break
-                ;;
-          *)    echo Internal Error >&2
-                return 1
-                ;;
-      esac
+  # Parse arguments manually instead of using getopt (which behaves differently on macOS)
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      -d)
+        devMode=true
+        shift
+        ;;
+      *)
+        service=$1
+        shift
+        ;;
+    esac
   done
 
-  service=$1
   echo $service
   echo $devMode
 
   if [ $service = "workstation" ]; then
-    code --remote ssh-remote+$EC2_IP_ADDR /home/ec2-user/firstup/$service
-  # If the param is a service
+    echo "starting workstation"
+    code /opt/socialchorus/workstation
+  # If the param is a service and dev mode is requested
   elif [[ " ${serviceList[*]} " =~ " ${service} " && $devMode = true ]]; then
     echo "starting $service in dev mode"
-    remoteDescription="{\"containerName\": \"/$service\", \"settings\": {\"host\": \"ssh://$EC2_IP_ADDR\"}}"
+    remoteDescription="{\"containerName\": \"/$service\"}}"
     encodedDescription=$(printf "%s" "$remoteDescription" | xxd -p)
-    runInEc2 restartInDevMode $service
-    code --folder-uri "vscode-remote://attached-container+${encodedDescription//[[:space:]]/}/opt/socialchorus/$service"
+    code --folder-uri vscode-remote://attached-container+$(printf "$service" | xxd -p)/opt/socialchorus/$service
+    #dir=`echo $(cd /opt/socialchorus/$service && pwd)`
+    #hex=`printf ${dir} | od -A n -t x1 | tr -d '[\n\t ]'`
+    #base=`basename ${dir}`
+    #code --folder-uri="vscode-remote://dev-container%2B${hex}/workspaces/${base}"
   elif [ $service = "dotfiles" ]; then
-    code --remote ssh-remote+$EC2_IP_ADDR /home/ec2-user/dotfiles
+    code ~/dotfiles
   else
-    code --remote ssh-remote+$EC2_IP_ADDR /home/ec2-user/firstup/$service
+    # For regular mode, just open the local directory
+    code "/opt/socialchorus/$service"
   fi
 }
 

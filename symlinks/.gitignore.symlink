@@ -24,4 +24,6 @@ tags
 .groovylintrc.json
 .vscode/
 .pryrc
+.ai-context
+.cursorrules
 
